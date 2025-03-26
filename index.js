@@ -22,6 +22,7 @@ app.get('/', (req, res) => {
 })
 
 app.post('/web-data', async (req, res) => {
+  console.log(req.body)
   const {query_id,id, username} = req.body;
   await bot.answerWebAppQuery(query_id, {
     type: 'article',
