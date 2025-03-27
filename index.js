@@ -16,7 +16,7 @@ app.use(cors())
 bot.on('message', (msg) => {
   const chatId = msg.chat.id;
 
-  bot.sendMessage(chatId, '111');
+  bot.sendMessage(chatId, '11111111');
 });
 
 app.get('/', (req, res) => {
@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 app.post('/web-data', async (req, res) => {
   console.log(req.body)
   const {id, username} = req.body;
-  let role = id===5616481223? 'officerClan' : 'inClan'
+  let role = id=='5616481223'? 'officerClan' : 'inClan'
   await bot.sendMessage(id,`Сообщение с сервера. Ваш ID: ${id}`)
   return res.status(200).json({message: 'ok', role: role})
 })
