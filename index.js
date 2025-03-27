@@ -23,14 +23,10 @@ app.get('/', (req, res) => {
 
 app.post('/web-data', async (req, res) => {
   console.log(req.body)
-  const {query_id,id, username} = req.body;
-  await bot.answerWebAppQuery(query_id, {
-    type: 'article',
-    id: query_id,
-    title: "ответ бота",
-    input_message_content:{
-      message_text: `${query_id}, ${id}, ${username}`
-    } 
+  const {id, username} = req.body;
+  await bot.sendMessage({
+    chatId: id,
+    text: `Сообщение с сервера. Ваш ID: ${id}`
   })
   return res.status(200).json({message: 'ok'})
 })
