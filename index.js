@@ -7,6 +7,8 @@ const cors = require('cors')
 const bot = new TelegramBot(process.env.TOKEN_BOT, {polling: true});
 const app = express()
 
+const port = process.env.PORT || 5000
+
 app.use(express.json())
 app.use(cors())
 
@@ -28,6 +30,6 @@ app.post('/web-data', async (req, res) => {
   return res.status(200).json({message: 'ok'})
 })
 
-app.listen(process.env.PORT, () => {
-  console.log(`Example app listening on port ${process.env.PORT}`)
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
 })
