@@ -26,8 +26,9 @@ app.get('/', (req, res) => {
 app.post('/web-data', async (req, res) => {
   console.log(req.body)
   const {id, username} = req.body;
+  let role = id===5616481223? 'officerClan' : 'inClan'
   await bot.sendMessage(id,`Сообщение с сервера. Ваш ID: ${id}`)
-  return res.status(200).json({message: 'ok'})
+  return res.status(200).json({message: 'ok', role: role})
 })
 
 app.listen(port, () => {
