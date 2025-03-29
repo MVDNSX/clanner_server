@@ -1,36 +1,29 @@
 require('dotenv').config()
 const TelegramBot = require('node-telegram-bot-api');
 const express = require('express')
+const corsMiddleware = require('./middleware/cors.midleware')
 const cors = require('cors')
+const router = require('./router/index')
 
 
 const bot = new TelegramBot(process.env.TOKEN_BOT, {polling: true});
-const app = express()
-
 const port = process.env.PORT || 5000
 
-app.use(express.json())
+const app = express()
+app.use(corsMiddleware)
 app.use(cors())
+app.use(express.json())
+app.use('/api', router)
 
 
-bot.on('message', (msg) => {
-  const chatId = msg.chat.id;
+const start = async () => {
+  try {
+    app.listen(port, () => {
+      console.log(`server started on port: ${port}`)
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
 
-  bot.sendMessage(chatId, '11111111');
-});
-
-app.get('/', (req, res) => {
-  
-})
-
-app.post('/web-data', async (req, res) => {
-  console.log(req.body)
-  const {id, username} = req.body;
-  let role = id=='5616481223'? 'officerClan' : 'inClan'
-  await bot.sendMessage(id,`Сообщение с сервера. Ваш ID: ${id}`)
-  return res.status(200).json({message: 'ok', role: role})
-})
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+start()
