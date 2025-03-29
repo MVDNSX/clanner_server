@@ -14,12 +14,12 @@ const sendAppMessage = (userData) => {
                         `1. Имя: ${firstName}\n` +
                         `2. Прошлые ники: ${nicknameHistory}\n` +
                         `3. Прошлые кланы: ${clanHistory}\n` +
-                        `4. Класс ${charProfile}\n` +
+                        `4. Класс: ${charProfile}\n` +
                         `5. Показатели персонажа: ${PA} ПА ${PZ} ПЗ ${FS} БД\n` +
-                        `6. Ссылка на pwobs ${charLink}\n` +
-                        `7. Почему именно наш клан ${message}`;
+                        `6. Ссылка на pwobs: ${charLink}\n` +
+                        `7. Почему именно наш клан: ${message}`;
   const options = {
-  message_thread_id: topicId,
+  message_thread_id: 2,
   parse_mode: 'Markdown',
   reply_markup: {
     inline_keyboard: [
