@@ -19,15 +19,15 @@ const sendAppMessage = (userData) => {
                         `6. Ссылка на pwobs ${charLink}\n` +
                         `7. Почему именно наш клан ${message}`;
   const options = {
-      message_thread_id: topicId,
-      parse_mode: 'Markdown',
-      reply_markup: {
-        inline_keyboard: [
-          [{ text: '✅ Принять'}]
-          [{ text: '❌ Отклонить'}]
-        ]
-      }
-    }
+  message_thread_id: topicId,
+  parse_mode: 'Markdown',
+  reply_markup: {
+    inline_keyboard: [
+      [{ text: '✅ Принять', callback_data: 'accept' }],
+      [{ text: '❌ Отклонить', callback_data: 'decline' }]
+    ]
+  }
+};
   bot.sendMessage(chatId, messageText, options)
 }
 
