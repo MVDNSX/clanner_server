@@ -1,6 +1,7 @@
 const TelegramBot = require('node-telegram-bot-api');
+require('dotenv').config();
 
-const bot = new TelegramBot(process.env.TOKEN_BOT, {polling:true})
+const bot = new TelegramBot(process.env.TOKEN_BOT, { polling: true });
 
 const chatId = process.env.GROUP_CHAT_ID
 const topicId = process.env.TOPIC_ID
@@ -29,3 +30,5 @@ const sendAppMessage = (userData) => {
     }
   bot.sendMessage(chatId, messageText, options)
 }
+
+module.exports = { bot, sendAppMessage };

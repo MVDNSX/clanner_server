@@ -1,4 +1,4 @@
-const sendAppMessage = require('../bot/bot')
+const {sendAppMessage} = require('../bot/bot')
 
 class DeclararionController {
   async processInit(req, res) {
