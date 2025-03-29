@@ -1,7 +1,7 @@
 require('dotenv').config()
 const TelegramBot = require('node-telegram-bot-api');
 const express = require('express')
-const corsMiddleware = require('./middleware/cors.midleware')
+const corsMiddleware = require('./middleware/cors.middleware')
 const cors = require('cors')
 const router = require('./router/index')
 
