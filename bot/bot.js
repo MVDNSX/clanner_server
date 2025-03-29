@@ -28,7 +28,7 @@ const sendAppMessage = (userData) => {
     ]
   }
 };
-  bot.sendMessage(chatId, messageText, options)
+  bot.sendMessage(-1002517925483, messageText, options)
 }
 
 module.exports = { bot, sendAppMessage };
