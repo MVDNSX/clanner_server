@@ -7,6 +7,16 @@ const router = require('./router/index')
 
 
 const bot = new TelegramBot(process.env.TOKEN_BOT, {polling: true});
+
+(async () => {
+  try {
+    await bot.deleteWebhook(); // Удаляет Webhook перед polling
+    console.log("✅ Webhook удален, бот работает в polling-режиме");
+  } catch (err) {
+    console.error("❌ Ошибка удаления Webhook:", err);
+  }
+})();
+
 const port = process.env.PORT || 5000
 
 const app = express()
