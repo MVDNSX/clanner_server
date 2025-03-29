@@ -1,8 +1,8 @@
 const Router = require('express')
 const router = new Router()
 const validateMiddleware = require('../middleware/validate.middleware');
-const declorationController = require('../controller/declorationController');
+const declarationController = require('../controller/declarationController');
 
-router.post('/create', validateMiddleware, declorationController.processInit)
+router.post('/create', validateMiddleware, declarationController.processInit)
 
 module.exports = router

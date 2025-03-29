@@ -28,6 +28,7 @@ const validateInitData = (req, res, next) => {
   if(calculatedHash !== hash){
     return res.status(403).json({ error: "Неверный hash. Данные могут быть подделаны." });
   }
+  console.log(calculatedHash === hash)
 
   next();
 }
