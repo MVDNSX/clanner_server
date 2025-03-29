@@ -4,7 +4,7 @@ require('dotenv').config();
 const bot = new TelegramBot(process.env.TOKEN_BOT, { polling: true });
 
 const chatId = process.env.GROUP_CHAT_ID
-const topicId = process.env.TOPIC_ID
+const topicId = Number(process.env.TOPIC_ID)
 
 const sendAppMessage = (userData) => {
   const {nickname, firstName, charProfile, PA, PZ, FS, charLink, nicknameHistory, clanHistory, message
@@ -22,7 +22,7 @@ const sendAppMessage = (userData) => {
       message_thread_id: topicId,
       parse_mode: 'Markdown',
       reply_markup: {
-        inline_eyboard: [
+        inline_keyboard: [
           [{ text: '✅ Принять'}]
           [{ text: '❌ Отклонить'}]
         ]
