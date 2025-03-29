@@ -18,7 +18,7 @@ const validateInitData = (req, res, next) => {
   params.delete('hash')
 
   const dataString = [...params.entries()]
-                          .map(([KeyboardEvent, value]) => {`${key}=${value}`})
+                          .map(([key, value]) => {`${key}=${value}`})
                           .sort()
                           .join("\n");
 
