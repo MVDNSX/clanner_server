@@ -1,6 +1,6 @@
 const {sendAppMessage} = require('../bot/bot')
 
-class DeclararionController {
+class DeclarationController {
   async processInit(req, res) {
     console.log(req.body)
     try {
@@ -13,4 +13,4 @@ class DeclararionController {
   }
 }
 
-module.exports = new DeclararionController
+module.exports = new DeclarationController
