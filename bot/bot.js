@@ -37,8 +37,8 @@ const sendAppMessage = ({initData, data}) => {
 
 bot.on('callback_query', async (query) => {
   const params = new URLSearchParams(query.data)
-  const action = data.get('action')
-  const userId = data.get('userId')
+  const action = params.get('action')
+  const userId = params.get('userId')
   if(action === 'accept'){
     await bot.sendMessage(userId, 'Ваша заявка принята!')
   }
