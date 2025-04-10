@@ -23,7 +23,7 @@ const validateInitData = (req, res, next) => {
                           .sort()
                           .join("\n");
 
-  const secretKey = crypto.createHmac("sha256", 'WebAppData').update(TOKEN).digest()
+  const secretKey = crypto.createHash('sha256').update(TOKEN).digest();
   const calculatedHash = crypto.createHmac('sha256', secretKey).update(dataString).digest('hex');
 
   if(calculatedHash !== hash){

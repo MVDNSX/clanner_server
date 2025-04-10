@@ -4,7 +4,7 @@ class DeclarationController {
   async processInit(req, res) {
     console.log(req.body)
     try {
-    sendAppMessage(req.body.data)
+    sendAppMessage(req.body)
     res.status(200).json({ message: 'Заявка успешно отправлена' });
     } catch (error) {
       console.error('Ошибка обработки заявки:', error);

@@ -6,9 +6,12 @@ const bot = new TelegramBot(process.env.TOKEN_BOT, { polling: true });
 const chatId = process.env.GROUP_CHAT_ID
 const topicId = Number(process.env.TOPIC_ID)
 
-const sendAppMessage = (userData) => {
+const sendAppMessage = ({initData, data}) => {
+
+  const {user} = initData;
+
   const { name, nickname, previousNick, previousClan, pa, pz, fs, characterUrl, recommends, reason
-  } = userData
+  } = data
 
   const messageText = `Новая заявка от ${nickname}.\n\n` +
                         `1. Имя: ${name}\n` +
@@ -24,12 +27,21 @@ const sendAppMessage = (userData) => {
   parse_mode: 'Markdown',
   reply_markup: {
     inline_keyboard: [
-      [{ text: '✅ Принять', callback_data: 'accept' }],
+      [{ text: '✅ Принять', callback_data: `action=accept&userId=${user.id}` }],
       [{ text: '❌ Отклонить', callback_data: 'decline' }]
     ]
   }
 };
   bot.sendMessage(-1002517925483, messageText, options)
 }
+
+bot.on('callback_query', async (query) => {
+  const params = new URLSearchParams(query.data)
+  const action = data.get('action')
+  const userId = data.get('userId')
+  if(action === 'accept'){
+    await bot.sendMessage(userId, 'Ваша заявка принята!')
+  }
+})
 
 module.exports = { bot, sendAppMessage };
