@@ -8,7 +8,8 @@ const topicId = Number(process.env.TOPIC_ID)
 
 const sendAppMessage = ({initData, data}) => {
 
-  const {user} = initData;
+  const params = new URLSearchParams(initData)
+  const user = JSON.parse(params.get('user'))
 
   const { name, nickname, previousNick, previousClan, pa, pz, fs, characterUrl, recommends, reason
   } = data
