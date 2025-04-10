@@ -40,12 +40,35 @@ bot.on('callback_query', async (query) => {
   const params = new URLSearchParams(query.data)
   const action = params.get('action')
   const userId = params.get('userId')
+
+  const username = query.from.username
+  const messageId = query.message.message_id
+  const chatId = query.message.chat.id
+
   if(action === 'accept'){
-    await bot.sendMessage(userId, '✅ Ваша заявка принята!')
+
+    try {
+      // Редактируем только клавиатуру (inline кнопки)
+      await bot.editMessageReplyMarkup({
+        inline_keyboard: [
+          [{ text: `✅ Заявка принята офицеров ${username}`}]
+        ]
+      }, {
+        chat_id: chatId,
+        message_id: messageId
+      });
+
+      // Отправляем сообщение пользователю
+      await bot.sendMessage(userId, 'Ваша заявка принята!');
+    } catch (err) {
+      console.error('Ошибка при обработке принятия заявки:', err);
+    }
   }
-  if(action === 'decline'){
+    if(action === 'decline'){
     await bot.sendMessage(userId, '❌ Ваша заявка отклонена.')
-  }
+    } 
+
+  bot.answerCallbackQuery(query.id);
 })
 
 module.exports = { bot, sendAppMessage };
