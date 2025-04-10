@@ -29,7 +29,7 @@ const sendAppMessage = ({initData, data}) => {
   reply_markup: {
     inline_keyboard: [
       [{ text: '✅ Принять', callback_data: `action=accept&userId=${user.id}` }],
-      [{ text: '❌ Отклонить', callback_data: 'decline' }]
+      [{ text: '❌ Отклонить', callback_data: 'action=decline&userId=${user.id}' }]
     ]
   }
 };
@@ -41,7 +41,10 @@ bot.on('callback_query', async (query) => {
   const action = params.get('action')
   const userId = params.get('userId')
   if(action === 'accept'){
-    await bot.sendMessage(userId, 'Ваша заявка принята!')
+    await bot.sendMessage(userId, '✅ Ваша заявка принята!')
+  }
+  if(action === 'decline'){
+    await bot.sendMessage(userId, '❌ Ваша заявка отклонена.')
   }
 })
 
