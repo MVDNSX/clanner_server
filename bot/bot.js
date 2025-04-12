@@ -29,7 +29,7 @@ const sendAppMessage = ({initData, data}) => {
   reply_markup: {
     inline_keyboard: [
       [{ text: '✅ Принять', callback_data: `action=accept&userId=${user.id}` }],
-      [{ text: '❌ Отклонить', callback_data: 'action=decline&userId=${user.id}' }]
+      [{ text: '❌ Отклонить', callback_data: `action=decline&userId=${user.id}` }]
     ]
   }
 };
@@ -41,17 +41,38 @@ bot.on('callback_query', async (query) => {
   const action = params.get('action')
   const userId = params.get('userId')
 
+
+  const userFirstName = query.from.first_name
   const username = query.from.username
-  const messageId = query.message.message_id
   const chatId = query.message.chat.id
+  const messageId = query.message.message_id
+  const message = query.message.text;
+
+
+  if(action === 'archive'){
+    const date = new Date().toLocaleDateString('en-US')
+    try {
+      await bot.deleteMessage(chatId, messageId)
+
+      await bot.sendMessage(chatId, message, {
+        message_thread_id: 40,
+        parse_mode: 'Markdown',
+        reply_markup: [
+          [{text: `Заявка принята ${date}`}]
+        ]
+      })
+
+    } catch (err) {
+      console.error('Ошибка при архивировании заявки', err);
+    }
+  }
 
   if(action === 'accept'){
 
     try {
-      // Редактируем только клавиатуру (inline кнопки)
       await bot.editMessageReplyMarkup({
         inline_keyboard: [
-          [{ text: `✅ Заявка принята офицеров ${username}`}]
+          [{ text: `Переместить в архив`, callback_data: 'action=archive'}],
         ]
       }, {
         chat_id: chatId,
