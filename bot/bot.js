@@ -65,9 +65,11 @@ bot.on('callback_query', async (query) => {
       await bot.sendMessage(chatId, message, {
         message_thread_id: 40,
         parse_mode: 'Markdown',
-        reply_markup: [
-          [{text: `Заявка принята ${date}`}]
-        ]
+        reply_markup: {
+          inline_keyboard: [
+            [{text: `Заявка принята ${date}`}]
+          ]
+        }
       })
 
     } catch (err) {
