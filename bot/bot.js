@@ -67,7 +67,7 @@ bot.on('callback_query', async (query) => {
         parse_mode: 'Markdown',
         reply_markup: {
           inline_keyboard: [
-            [{text: `Заявка принята ${date}`}]
+            [{text: `Заявка принята ${date}`, callback_data: 'noop'}]
           ]
         }
       })
