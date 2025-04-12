@@ -36,6 +36,14 @@ const sendAppMessage = ({initData, data}) => {
   bot.sendMessage(-1002517925483, messageText, options)
 }
 
+bot.on('message', (msg) => {
+  if(msg.message_thread_id){
+    console.log(`Id темы: ${msg.message_thread_id}`)
+  }else{
+    console.log('Сообщение не связано с темой')
+  }
+})
+
 bot.on('callback_query', async (query) => {
   const params = new URLSearchParams(query.data)
   const action = params.get('action')
