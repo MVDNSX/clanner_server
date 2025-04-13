@@ -44,16 +44,20 @@ bot.on('message', (msg) => {
   }
 })
 
-const fnDiscussion = async (topicId, userId, chatId, messageId, message, queryId, nickname) => {
+const fnDiscussion = async (queryId, chatId, topicId, messageId, message, userId, nickname) => {
   try {
-      let msg = await bot.sendMessage(topicId, message)
+      let msg = await bot.sendMessage(chatId, message, {
+        message_thread_id: topicId,
+        parse_mode: 'Markdown'
+      })
 
-      await bot.sendPoll(topicId, `Заявка от ${nickname}, принимаем?`, ['Да', 'Нет', 'На усмотрение офицеров'], {
+      await bot.sendPoll(chatId, `Заявка от ${nickname}, принимаем?`, ['Да', 'Нет', 'На усмотрение офицеров'], {
+        message_thread_id: topicId,
         type: 'regular',
         is_anonymous: true,
         allows_multiple_answers: false,
         disable_notification: true,
-        reply_to_message_id: msg.message_id
+        reply_to_message_id: msg.message_id,
       })
 
       await bot.editMessageReplyMarkup({
@@ -187,7 +191,7 @@ bot.on('callback_query', async (query) => {
 
   if(action === 'discussion') {
     console.log()
-    await fnDiscussion(topicDiscussion, userId, chatId, messageId, message, queryId, nickname)
+    await fnDiscussion(queryId, chatId, topicId, messageId, message, userId, use)
   }
 
   if(action === 'archive'){
