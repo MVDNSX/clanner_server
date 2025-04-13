@@ -160,7 +160,7 @@ const fnArchive = async ({queryId, chatId, topicId, messageId, message}) => {
 }
 
 
-const fnDecline = async ({queryId, userId, chatId, messageId}) => {
+const fnDecline = async ({queryId, chatId, messageId, userId}) => {
   const currentDate = new Date().toLocaleDateString('ru-Ru')
   try {
     await bot.editMessageReplyMarkup({
@@ -223,7 +223,7 @@ bot.on('callback_query', async (query) => {
 
   if(action === 'decline'){
     console.log('****action === decline****')
-    await fnDecline({queryId, userId})
+    await fnDecline({queryId, chatId, userId, messageId})
   } 
 })
 
