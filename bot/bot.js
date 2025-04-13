@@ -183,13 +183,15 @@ bot.on('callback_query', async (query) => {
   const chatId = query.message.chat.id
   const messageId = query.message.message_id
   const message = query.message.text;
+  console.log(topicDiscussion, userId, chatId, messageId, message, queryId, nickname)
 
   if(action === 'discussion') {
+    console.log()
     await fnDiscussion(topicDiscussion, userId, chatId, messageId, message, queryId, nickname)
   }
 
   if(action === 'archive'){
-    await fnArchive(queryId, chatId, messageId, topicId, message, user)
+    await fnArchive(queryId, chatId, messageId, topicArchive, message)
   }
 
   if(action === 'accept'){
