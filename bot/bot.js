@@ -160,17 +160,31 @@ const fnArchive = async ({queryId, chatId, topicId, messageId, message}) => {
 }
 
 
-const fnDecline = async ({queryId, userId}) => {
+const fnDecline = async ({queryId, userId, chatId, messageId}) => {
+  const currentDate = new Date().toLocaleDateString('ru-Ru')
   try {
+    await bot.editMessageReplyMarkup({
+      inline_keyboard:[
+        [{text: `Заявка была отклонена ${currentDate}`, callback_data: 'noop'}],
+        [{ text: `Переместить в архив`, callback_data: 'action=archive'}]
+
+      ]
+    }, {
+      chat_id: chatId,
+      message_id: messageId,
+    })
+
     await bot.sendMessage(userId, '❌ Ваша заявка отклонена.')
+
     await bot.answerCallbackQuery(queryId, {
       text: 'Заявка отклонена',
       show_alert: false,
     })
+
   } catch (error) {
     console.error('Ошибка при отклонении заявки:', error);
     await bot.answerCallbackQuery(queryId, {
-      text: 'Ошибка отказа завки',
+      text: 'Ошибка отклонения завки',
       show_alert: false,
     })
   }
