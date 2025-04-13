@@ -44,62 +44,122 @@ bot.on('message', (msg) => {
   }
 })
 
+const fnArchive = async (queryId, chatId, messageId, topicId, message) => {
+  const currentDate = new Date().toLocaleDateString('ru-Ru')
+  try {
+    let toArchive = await bot.sendMessage(chatId, message, {
+      message_thread_id: topicId, //id архива заявок
+      parse_mode: 'Markdown',
+      reply_markup: {
+        inline_keyboard: [
+          [{text: `Заявка принята ${currentDate}`, callback_data: 'noop'}]
+        ]
+      }
+    })
+    if(toArchive && toArchive.message_id){
+      await bot.deleteMessage(chatId, messageId)
+      await bot.answerCallbackQuery(queryId, {
+        text: 'Заявка перемещена в архив',
+        show_alert: true,
+      })
+      console.log('**Заявка перемещена в архив**')
+    }else{
+      console.log('**Не удалось архивировать. Повторите запроса**')
+      await bot.answerCallbackQuery(queryId, {
+        text: 'Не удалось архивировать. Повторите запроса',
+        show_alert: true,
+      })
+    }
+  } catch (error) {
+    console.error('**Ошибка fnArchive:**', error)
+    await bot.answerCallbackQuery(queryId, {
+      text: 'Ошибка архивирования',
+      show_alert: true,
+    })
+  }
+}
+
+const fnAccenpt = async (queryId, chatId, messageId, userId) => {
+  try {
+    await bot.editMessageReplyMarkup({
+      inline_keyboard: [
+        [{ text: `Переместить в архив`, callback_data: 'action=archive'}],
+      ]
+    }, {
+      chat_id: chatId,
+      message_id: messageId
+    })
+
+    const inviteLink = await bot.createChatInviteLink(chatId, {
+      name: 'Приглашение в чат',
+      expire_date: Math.floor(Date.now() / 1000) + 86400,
+      member_limit: 1,
+      creates_join_request: false, //вступление без одобрения
+    })
+
+    await bot.sendMessage(userId, '✅ Ваша заявка принята!', {
+      parse_mode: 'Markdown',
+      reply_markup:{
+        inline_keyboard: [
+          [{text: 'Приглашение в чат', url: inviteLink.invite_link}]
+        ]
+      }
+    });
+
+    await bot.answerCallbackQuery(queryId, {
+      text: 'Заявка принята',
+      show_alert: false,
+    })
+  } catch (error) {
+    console.error('Ошибка принятия заявки:', error);
+    await bot.answerCallbackQuery(queryId, {
+      text: 'Ошибка принятия заявки',
+      show_alert: false,
+    })
+  }
+}
+
+const fnDecline = async (queryId, userId) => {
+  try {
+    await bot.sendMessage(userId, '❌ Ваша заявка отклонена.')
+    await bot.answerCallbackQuery(queryId, {
+      text: 'Заявка отклонена',
+      show_alert: false,
+    })
+  } catch (error) {
+    console.error('Ошибка при отклонении заявки:', error);
+    await bot.answerCallbackQuery(queryId, {
+      text: 'Ошибка отказа завки',
+      show_alert: false,
+    })
+  }
+}
+
 bot.on('callback_query', async (query) => {
   const params = new URLSearchParams(query.data)
   const action = params.get('action')
   const userId = params.get('userId')
 
-
+  const topicId = 40;
+  const queryId = query.id
   const userFirstName = query.from.first_name
   const username = query.from.username
   const chatId = query.message.chat.id
   const messageId = query.message.message_id
   const message = query.message.text;
 
-
   if(action === 'archive'){
-    const date = new Date().toLocaleDateString('en-US')
-    try {
-      await bot.deleteMessage(chatId, messageId)
-
-      await bot.sendMessage(chatId, message, {
-        message_thread_id: 40,
-        parse_mode: 'Markdown',
-        reply_markup: {
-          inline_keyboard: [
-            [{text: `Заявка принята ${date}`, callback_data: 'noop'}]
-          ]
-        }
-      })
-
-    } catch (err) {
-      console.error('Ошибка при архивировании заявки', err);
-    }
+    await fnArchive(queryId, chatId, messageId, topicId, message)
   }
 
   if(action === 'accept'){
-
-    try {
-      await bot.editMessageReplyMarkup({
-        inline_keyboard: [
-          [{ text: `Переместить в архив`, callback_data: 'action=archive'}],
-        ]
-      }, {
-        chat_id: chatId,
-        message_id: messageId
-      });
-
-      // Отправляем сообщение пользователю
-      await bot.sendMessage(userId, 'Ваша заявка принята!');
-    } catch (err) {
-      console.error('Ошибка при обработке принятия заявки:', err);
-    }
+    await fnAccenpt(queryId, chatId, messageId, userId)
   }
-    if(action === 'decline'){
-    await bot.sendMessage(userId, '❌ Ваша заявка отклонена.')
-    } 
-
-  bot.answerCallbackQuery(query.id);
+  if(action === 'decline'){
+    await fnDecline(queryId, userId)
+  } 
 })
 
 module.exports = { bot, sendAppMessage };
+
+
