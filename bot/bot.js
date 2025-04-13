@@ -28,7 +28,7 @@ const sendAppMessage = ({initData, data}) => {
   parse_mode: 'Markdown',
   reply_markup: {
     inline_keyboard: [
-      [{ text: '✅ Принять', callback_data: `action=accept&userId=${user.id}` }],
+      [{ text: '⚖️ Отправить в обсуждение', callback_data: `action=discussion&userId=${user.id}&nickname=${nickname}` }],
       [{ text: '❌ Отклонить', callback_data: `action=decline&userId=${user.id}` }]
     ]
   }
@@ -44,6 +44,40 @@ bot.on('message', (msg) => {
   }
 })
 
+const fnDiscussion = async (topicId, userId, chatId, messageId, message, queryId, nickname) => {
+  try {
+      let msg = await bot.sendMessage(topicId, message)
+
+      await bot.sendPoll(topicId, `Заявка от ${nickname}, принимаем?`, ['Да', 'Нет', 'На усмотрение офицеров'], {
+        type: 'regular',
+        is_anonymous: true,
+        allows_multiple_answers: false,
+        disable_notification: true,
+        reply_to_message_id: msg.message_id
+      })
+
+      await bot.editMessageReplyMarkup({
+        inline_keyboard: [
+          [{ text: `✅Принять заявку`, callback_data: `action=accept&userId=${userId}`}],
+          [{ text: '❌ Отклонить', callback_data: `action=decline&userId=${userId}` }]
+        ]
+      }, {
+        chat_id: chatId,
+        message_id: messageId
+      })
+
+      await bot.answerCallbackQuery(queryId, {
+        text: 'Заявка отправлена в обсуждение',
+        show_alert: true,
+      })
+  } catch (error) {
+    console.error('**Ошибка fnDisscussion:**', error)
+    await bot.answerCallbackQuery(queryId, {
+      text: 'Ошибка отправки в обсуждение',
+      show_alert: true,
+    })
+  }
+}
 const fnArchive = async (queryId, chatId, messageId, topicId, message) => {
   const currentDate = new Date().toLocaleDateString('ru-Ru')
   try {
@@ -139,8 +173,10 @@ bot.on('callback_query', async (query) => {
   const params = new URLSearchParams(query.data)
   const action = params.get('action')
   const userId = params.get('userId')
+  const nickname = params.get('nickname')
 
-  const topicId = 40;
+  const topicArchive = 40;
+  const topicDiscussion = 52;
   const queryId = query.id
   const userFirstName = query.from.first_name
   const username = query.from.username
@@ -148,8 +184,12 @@ bot.on('callback_query', async (query) => {
   const messageId = query.message.message_id
   const message = query.message.text;
 
+  if(action === 'discussion') {
+    await fnDiscussion(topicDiscussion, userId, chatId, messageId, message, queryId, nickname)
+  }
+
   if(action === 'archive'){
-    await fnArchive(queryId, chatId, messageId, topicId, message)
+    await fnArchive(queryId, chatId, messageId, topicId, message, user)
   }
 
   if(action === 'accept'){
