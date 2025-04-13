@@ -191,7 +191,7 @@ bot.on('callback_query', async (query) => {
 
   if(action === 'discussion') {
     console.log()
-    await fnDiscussion(queryId, chatId, topicId, messageId, message, userId, use)
+    await fnDiscussion(queryId, chatId, topicId, messageId, message, userId, nickname)
   }
 
   if(action === 'archive'){
