@@ -94,7 +94,7 @@ const fnAccenpt = async ({queryId, chatId, messageId, userId}) => {
       message_id: messageId
     })
 
-    const inviteLink = await bot.createChatInviteLink(chatId, {
+    const inviteLink = await bot.createChatInviteLink(-1002517925483, {
       name: 'Приглашение в чат',
       expire_date: Math.floor(Date.now() / 1000) + 86400,
       member_limit: 1,
@@ -198,6 +198,7 @@ bot.on('callback_query', async (query) => {
 
   const topicArchive = 40;
   const topicDiscussion = 52;
+
 
   const queryId = query.id
   const userFirstName = query.from.first_name
