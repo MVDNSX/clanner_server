@@ -44,11 +44,11 @@ bot.on('message', (msg) => {
   }
 })
 
-const fnDiscussion = async (queryId, chatId, topicId, messageId, message, userId, nickname) => {
+const fnDiscussion = async ({queryId, chatId, topicId, messageId, message, userId, nickname}) => {
   try {
       let msg = await bot.sendMessage(chatId, message, {
         message_thread_id: topicId,
-        parse_mode: 'Markdown'
+        parse_mode: 'Markdown',
       })
 
       await bot.sendPoll(chatId, `Заявка от ${nickname}, принимаем?`, ['Да', 'Нет', 'На усмотрение офицеров'], {
@@ -82,42 +82,8 @@ const fnDiscussion = async (queryId, chatId, topicId, messageId, message, userId
     })
   }
 }
-const fnArchive = async (queryId, chatId, messageId, topicId, message) => {
-  const currentDate = new Date().toLocaleDateString('ru-Ru')
-  try {
-    let toArchive = await bot.sendMessage(chatId, message, {
-      message_thread_id: topicId, //id архива заявок
-      parse_mode: 'Markdown',
-      reply_markup: {
-        inline_keyboard: [
-          [{text: `Заявка принята ${currentDate}`, callback_data: 'noop'}]
-        ]
-      }
-    })
-    if(toArchive && toArchive.message_id){
-      await bot.deleteMessage(chatId, messageId)
-      await bot.answerCallbackQuery(queryId, {
-        text: 'Заявка перемещена в архив',
-        show_alert: true,
-      })
-      console.log('**Заявка перемещена в архив**')
-    }else{
-      console.log('**Не удалось архивировать. Повторите запроса**')
-      await bot.answerCallbackQuery(queryId, {
-        text: 'Не удалось архивировать. Повторите запроса',
-        show_alert: true,
-      })
-    }
-  } catch (error) {
-    console.error('**Ошибка fnArchive:**', error)
-    await bot.answerCallbackQuery(queryId, {
-      text: 'Ошибка архивирования',
-      show_alert: true,
-    })
-  }
-}
 
-const fnAccenpt = async (queryId, chatId, messageId, userId) => {
+const fnAccenpt = async ({queryId, chatId, messageId, userId}) => {
   try {
     await bot.editMessageReplyMarkup({
       inline_keyboard: [
@@ -157,7 +123,44 @@ const fnAccenpt = async (queryId, chatId, messageId, userId) => {
   }
 }
 
-const fnDecline = async (queryId, userId) => {
+const fnArchive = async ({queryId, chatId, topicId, messageId, message}) => {
+  const currentDate = new Date().toLocaleDateString('ru-Ru')
+  try {
+    let toArchive = await bot.sendMessage(chatId, message, {
+      message_thread_id: topicId, //id архива заявок
+      parse_mode: 'Markdown',
+      disable_notification: true,
+      reply_markup: {
+        inline_keyboard: [
+          [{text: `Заявка принята ${currentDate}`, callback_data: 'noop'}]
+        ]
+      }
+    })
+    if(toArchive && toArchive.message_id){
+      await bot.deleteMessage(chatId, messageId)
+      await bot.answerCallbackQuery(queryId, {
+        text: 'Заявка перемещена в архив',
+        show_alert: true,
+      })
+      console.log('**Заявка перемещена в архив**')
+    }else{
+      console.log('**Не удалось архивировать. Повторите запроса**')
+      await bot.answerCallbackQuery(queryId, {
+        text: 'Не удалось архивировать. Повторите запроса',
+        show_alert: true,
+      })
+    }
+  } catch (error) {
+    console.error('**Ошибка fnArchive:**', error)
+    await bot.answerCallbackQuery(queryId, {
+      text: 'Ошибка архивирования',
+      show_alert: true,
+    })
+  }
+}
+
+
+const fnDecline = async ({queryId, userId}) => {
   try {
     await bot.sendMessage(userId, '❌ Ваша заявка отклонена.')
     await bot.answerCallbackQuery(queryId, {
@@ -181,28 +184,32 @@ bot.on('callback_query', async (query) => {
 
   const topicArchive = 40;
   const topicDiscussion = 52;
+
   const queryId = query.id
   const userFirstName = query.from.first_name
   const username = query.from.username
   const chatId = query.message.chat.id
   const messageId = query.message.message_id
   const message = query.message.text;
-  console.log(topicDiscussion, userId, chatId, messageId, message, queryId, nickname)
 
   if(action === 'discussion') {
-    console.log()
-    await fnDiscussion(queryId, chatId, topicDiscussion, messageId, message, userId, nickname)
-  }
-
-  if(action === 'archive'){
-    await fnArchive(queryId, chatId, messageId, topicArchive, message)
+    console.log('****action === discussion****')
+    await fnDiscussion({queryId, chatId, topicId:topicDiscussion, messageId, message, userId, nickname})
   }
 
   if(action === 'accept'){
-    await fnAccenpt(queryId, chatId, messageId, userId)
+    console.log('****action === accept****')
+    await fnAccenpt({queryId, chatId, messageId, userId})
   }
+
+  if(action === 'archive'){
+    console.log('****action === archive****')
+    await fnArchive({queryId, chatId, topicId: topicArchive, messageId, message})
+  }
+
   if(action === 'decline'){
-    await fnDecline(queryId, userId)
+    console.log('****action === decline****')
+    await fnDecline({queryId, userId})
   } 
 })
 
