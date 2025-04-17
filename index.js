@@ -4,6 +4,9 @@ const corsMiddleware = require('./middleware/cors.middleware')
 const cors = require('cors')
 const router = require('./router/index')
 
+const {sequelize} = require('./models')
+const { loadSeeds } = require('./models/Seeds')
+
 const port = process.env.PORT || 5000
 
 const app = express()
@@ -14,11 +17,20 @@ app.use('/api', router)
 
 const start = async () => {
   try {
+    await sequelize.authenticate()
+    console.log('***  Соединение с базой данный установлено  ***')
+    
+    await sequelize.sync({force: true})
+    console.log('***  Модели синхронизированны  ***')
+    
+    await loadSeeds()
+    console.log('***  Сиды успешно загружены  ***')
+    
     app.listen(port, () => {
-      console.log(`server started on port: ${port}`)
+      console.log(`***  Сервер запущен на порту  ***: ${port}`)
     })
   } catch (error) {
-    console.log(error)
+    console.log("***  Ошибка подключения к БД  ***", error)
   }
 }
 
