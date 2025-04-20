@@ -1,23 +1,15 @@
 const {DataTypes} = require('sequelize')
 const sequelize = require('../db')
 
-
+//Таблица членов клана
 const Member = sequelize.define('Member', {
   telegram_id: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
   },
-  character_name: {
+  nickname: {
     type: DataTypes.STRING,
-    allowNull: false,
-  },
-  role_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  character_id: {
-    type: DataTypes.INTEGER,
     allowNull: false,
   },
   pa: {
@@ -39,6 +31,7 @@ const Member = sequelize.define('Member', {
   },
 }, {
   tableName: 'members',
+  timestamps: false
 });
 
 module.exports = Member

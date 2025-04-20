@@ -1,11 +1,9 @@
 const {DataTypes} = require('sequelize')
 const sequelize = require('../db')
 
+//Таблица должностей клана
 const Role = sequelize.define('Role', {
-  id:{
-    type: DataTypes.INTEGER, primaryKey: true, autoIncrement:true,
-  },
-  name: {
+  role_name: {
     type: DataTypes.STRING, unique:true, allowNull:false,
   }
 },{
