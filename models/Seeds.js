@@ -1,7 +1,12 @@
 
-const {Role, GameClass, Event} = require('./index')
+const {Member, Role, GameClass, Event} = require('./index')
 async function loadSeeds() {
   try {
+    await Member.bulkCreate([
+      {telegram_id: '5616481223', nickname: 'FTX', pa:199, pz: 87, fs: 6535},
+      {telegram_id: '5142957152', nickname: 'NZT', pa:40, pz: 6, fs: 4200}
+    ])
+
     await Role.bulkCreate([
       {role_name: 'Член'},
       {role_name: 'Офицер'},

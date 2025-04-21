@@ -8,7 +8,7 @@ const Party = require('./Party')
 const PartyMember = require ('./PartyMember')
 
 
-Member.belongsTo(Role, {foreignKey: 'role_id'})
+Member.belongsTo(Role, {foreignKey: 'role_id', as: 'member_role'})
 Role.hasMany(Member, {foreignKey: 'role_id'})
 
 Member.belongsTo(GameClass, {foreignKey: 'class_id'})
