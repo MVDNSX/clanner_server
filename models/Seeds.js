@@ -1,5 +1,5 @@
 
-const {Member, Role, GameClass, Event} = require('./index')
+const {Member, Role, GameClass, Event, Party} = require('./index')
 async function loadSeeds() {
   try {
     await Role.bulkCreate([
@@ -46,6 +46,10 @@ async function loadSeeds() {
   } catch (error) {
     console.error('***Ошибка загрузки сидов***')
   }
+
+  await Party.bulkCreate([
+    {event_id: 1, party_name: 'Пачка 1'}
+  ])
 }
 
 module.exports = {

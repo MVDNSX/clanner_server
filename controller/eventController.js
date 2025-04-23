@@ -10,6 +10,36 @@ class eventController {
       res.status(500).json({message: 'Внутренняя ошибка сервера (getEvents)'})
     }
   } 
+  async activatedEvent(req, res){
+    try {
+      const {id, start_date} = req.body
+      await Event.update({
+        is_active: true,
+        start_date
+      }, {
+        where:{id}
+      })
+      res.status(200).json({message: 'event status changed'})
+    } catch (error) {
+      console.error('Ошибка изменения статуса ивента', error)
+      res.status(500).json({message: 'Внутренняя ошибка сервера (activatedEvent)'})
+    }
+  }
+  async deactivatedEvent(req, res){
+    try {
+      const {id} = req.body
+      await Event.update({
+        is_active: false,
+        start_date: null,
+      }, {
+        where:{id}
+      })
+      res.status(200).json({message: 'event status changed'})
+    } catch (error) {
+      console.error('Ошибка изменения статуса ивента', error)
+      res.status(500).json({message: 'Внутренняя ошибка сервера (deactivatedEvent)'})
+    }
+  }
 }
 
 module.exports = new eventController
