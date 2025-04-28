@@ -30,8 +30,8 @@ async function loadSeeds() {
     })
     
     await Member.bulkCreate([
-      {telegram_id: '5616481223', nickname: 'FTX', pa:199, pz: 87, fs: 6535, class_id: 7},
-      {telegram_id: '5142957152', nickname: 'NZT', pa:40, pz: 6, fs: 4200, class_id:17}
+      {telegram_id: '5616481223', nickname: 'FTX', pa:199, pz: 87, fs: 6535, class_id: 7, role_id: 2},
+      {telegram_id: '5142957152', nickname: 'NZT', pa:40, pz: 6, fs: 4200, class_id:17, role_id:1}
     ])
 
     
