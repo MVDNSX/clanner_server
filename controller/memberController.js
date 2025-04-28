@@ -50,7 +50,7 @@ class memberController {
         ]
       })
       if(!member){
-        res.status(401).json({message: 'Пользователь не найден'})
+        res.status(200).json({message: 'Пользователь не найден'})
       }else{
         res.status(200).json(member)
       }
