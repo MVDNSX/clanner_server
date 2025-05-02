@@ -61,32 +61,24 @@ class memberController {
         order: [['start_date', 'ASC']]
       })
 
-      const attendances = await Attendance.findAll({
-        where: {
-          member_id: member.id,
-          status: true
-        },
-        attributes: ['status'],
+      const events = await Event.findAll({
         include: [
           {
-            model: Event,
+            model: Attendance,
             as: 'attendance_events',
-            attributes: ['event_name', 'image_url', 'start_date'],
             include: [
               {
                 model: Party,
                 as: 'event_parties',
-                attributes: ['party_name', 'leader_id'],
                 include: [
                   {
                     model: PartyMember,
                     as: 'party_members',
-                    attributes: [],
                     include: [
                       {
                         model: Member,
-                        as: 'member',
-                        attributes: ['nickname']
+                        as: 'member',  // Получаем только участников
+                        attributes: ['nickname']  // Получаем только никнейма участников
                       }
                     ]
                   }
