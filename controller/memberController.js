@@ -81,11 +81,12 @@ class memberController {
                   {
                     model: PartyMember,
                     as: 'party_members',
+                    attributes: [],
                     include: [
                       {
                         model: Member,
                         as: 'member',
-                        attributes: ['id', 'nickname', 'role_id'] // Получаем только никнейм участников
+                        attributes: ['id', 'nickname', 'role_id'],
                       }
                     ]
                   }
@@ -94,9 +95,9 @@ class memberController {
             ]
           }
         ]
-      })
+      });
 
-      const cleanedAttendances = attendances.map(attendance => ({
+      const transformedAttendances = attendances.map(attendance => ({
         status: attendance.status,
         attendance_events: attendance.attendance_events.map(event => ({
           event_name: event.event_name,
@@ -127,7 +128,7 @@ class memberController {
             fs: member.fs,
           } ,
           activeEvents,
-          cleanedAttendances,
+          transformedAttendances,
         })
 
     } catch (error) {
