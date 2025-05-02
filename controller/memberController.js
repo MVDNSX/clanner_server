@@ -44,7 +44,7 @@ class memberController {
     try {
       const member = await Member.findOne({
         where: {telegram_id},
-        attributes:['id', 'telegram_id', 'name', 'role_id', 'class_id', 'pa', 'pz', 'fs']
+        attributes:['id', 'telegram_id', 'nickname', 'role_id', 'class_id', 'pa', 'pz', 'fs']
       })
       if(!member){
         res.status(200).json({status: 'not_found', message: 'Пользователь не найден' })
