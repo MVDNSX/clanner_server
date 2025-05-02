@@ -65,25 +65,7 @@ class memberController {
         where: {
           member_id: member.id,
           status: true
-        },
-        include: [
-          {
-            model: Event,
-            where: {is_active: true},
-          },
-          {
-            model: Party,
-            include:[
-              {
-                model: PartyMember, 
-                include: {
-                  model: Member,
-                  include: GameClass
-                }
-              }
-            ]
-          }
-        ]
+        }
       })
 
         res.status(200).json({
