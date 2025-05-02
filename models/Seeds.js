@@ -72,30 +72,24 @@ async function loadSeeds() {
 
   await Party.bulkCreate([
     {event_id: 1, party_name: 'Пачка атаки 1', leader_id: 1},
-    {event_id: 5, party_name: 'Садик 1', leader_id: 1},
     {event_id: 1, party_name: 'Пачка атаки 2', leader_id: 2},
+    {event_id: 5, party_name: 'Садик 1', leader_id: 1},
   ])
 
   await PartyMember.bulkCreate([
     {party_id: 1, member_id: 1},
     {party_id: 1, member_id: 3},
     {party_id: 1, member_id: 4},
-    {party_id: 1, member_id: 5},
-    {party_id: 1, member_id: 6},
 
-    {party_id: 2, member_id: 1},
-    {party_id: 2, member_id: 3},
-    {party_id: 2, member_id: 4},
+    {party_id: 2, member_id: 2},
     {party_id: 2, member_id: 5},
     {party_id: 2, member_id: 6},
     
     
-    {party_id: 1, member_id: 2},
-    {party_id: 1, member_id: 3},
-    {party_id: 1, member_id: 4},
-    {party_id: 1, member_id: 5},
-
-
+    {party_id: 3, member_id: 2},
+    {party_id: 3, member_id: 3},
+    {party_id: 3, member_id: 4},
+    {party_id: 3, member_id: 5},
   ])
 }
 
