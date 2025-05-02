@@ -61,7 +61,7 @@ class memberController {
         order: [['start_date', 'ASC']]
       })
 
-      const attendances = await Attendance.findAll({
+      const dirtyAttendances = await Attendance.findAll({
         where: {
           member_id: member.id,
           status: true
@@ -85,7 +85,7 @@ class memberController {
                       {
                         model: Member,
                         as: 'member',
-                        attributes: ['nickname'] // Получаем только никнейм участников
+                        attributes: ['id', 'nickname', 'role_id'] // Получаем только никнейм участников
                       }
                     ]
                   }
@@ -96,7 +96,7 @@ class memberController {
         ]
       })
 
-      const cleanedAttendances = attendances.map(att => {
+      const attendances = dirtyAttendances.map(att => {
         const event = att.attendance_events;
         return {
           status: att.status,
@@ -107,7 +107,11 @@ class memberController {
             event_parties: event.event_parties.map(party => ({
               party_name: party.party_name,
               leader_id: party.leader_id,
-              party_members: (party.party_members || []).map(pm => pm.member?.nickname)
+              party_members: (party.party_members || []).map(pm => ({
+                id: pm.member?.id,
+                nickname: pm.member?.nickname,
+                role_id: pm.member?.role_id,
+              }))
             }))
           }
         };
@@ -126,7 +130,6 @@ class memberController {
             fs: member.fs,
           } ,
           activeEvents,
-          cleanedAttendances,
           attendances
         })
 
