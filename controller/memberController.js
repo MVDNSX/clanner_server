@@ -81,7 +81,7 @@ class memberController {
                   {
                     model: PartyMember,
                     as: 'party_members',
-                    attributes: [], // Не берем данные PartyMember, только вложенных members
+                    attributes: [],
                     include: [
                       {
                         model: Member,
