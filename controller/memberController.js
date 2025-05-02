@@ -44,13 +44,7 @@ class memberController {
     try {
       const member = await Member.findOne({
         where: {telegram_id},
-        attributes:{
-          exclude: ['role_id', 'class_id']
-        },
-        include:[
-          {model: Role, as:'member_role'},
-          {model: GameClass, as:'member_class'}
-        ]
+        attributes:['id', 'telegram_id', 'name', 'role_id', 'class_id', 'pa', 'pz', 'fs']
       })
       if(!member){
         res.status(200).json({status: 'not_found', message: 'Пользователь не найден' })
@@ -85,7 +79,7 @@ class memberController {
                       {
                         model: Member,
                         as: 'member',
-                        attributes: ['id', 'nickname', 'role_id'] // Получаем только никнейм участников
+                        attributes: ['id', 'nickname', 'class_id'] // Получаем только никнейм участников
                       }
                     ]
                   }
@@ -110,7 +104,7 @@ class memberController {
               party_members: (party.party_members || []).map(pm => ({
                 id: pm.member?.id,
                 nickname: pm.member?.nickname,
-                role_id: pm.member?.role_id,
+                class_id: pm.member?.class_id,
               }))
             }))
           }
@@ -119,16 +113,7 @@ class memberController {
 
         res.status(200).json({
           status: 'ok',
-          profile: {
-            id: member.id,
-            telegram_id: member.telegram_id,
-            name: member.name,
-            role: member.member_role.role_name,
-            class: member.member_class.class_name,
-            pa: member.pa,
-            pz: member.pz,
-            fs: member.fs,
-          } ,
+          member,
           activeEvents,
           attendances
         })
