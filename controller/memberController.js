@@ -81,7 +81,6 @@ class memberController {
                   {
                     model: PartyMember,
                     as: 'party_members',
-                    attributes: [],
                     include: [
                       {
                         model: Member,
@@ -97,6 +96,23 @@ class memberController {
         ]
       })
 
+      const cleanedAttendances = attendances.map(att => {
+        const event = att.attendance_events;
+        return {
+          status: att.status,
+          attendance_events: {
+            event_name: event.event_name,
+            image_url: event.image_url,
+            start_date: event.start_date,
+            event_parties: event.event_parties.map(party => ({
+              party_name: party.party_name,
+              leader_id: party.leader_id,
+              party_members: (party.party_members || []).map(pm => pm.member?.nickname)
+            }))
+          }
+        };
+      });
+
         res.status(200).json({
           status: 'ok',
           profile: {
@@ -110,7 +126,7 @@ class memberController {
             fs: member.fs,
           } ,
           activeEvents,
-          attendances
+          cleanedAttendances
         })
 
     } catch (error) {
