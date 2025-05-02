@@ -66,11 +66,12 @@ class memberController {
           member_id: member.id,
           status: true
         },
+        attributes: ['status'],
         include: [
           {
             model: Event,
             as: 'attendance_events',
-            attributes:['event_name', 'image_url', 'start_date'],
+            attributes: ['event_name', 'image_url', 'start_date'],
             include: [
               {
                 model: Party,
@@ -79,20 +80,22 @@ class memberController {
                 include: [
                   {
                     model: PartyMember,
-                    as:'party_members',
-                    include:[{
-                      model: Member,
-                      as: 'members',
-                      attributes: ['nickname']
-                    }]
+                    as: 'party_members',
+                    attributes: [], // Не берем данные PartyMember, только вложенных members
+                    include: [
+                      {
+                        model: Member,
+                        as: 'member',
+                        attributes: ['nickname']
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ],
-        attributes:['status']
-      })
+        ]
+      });
 
         res.status(200).json({
           status: 'ok',
