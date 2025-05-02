@@ -2,6 +2,7 @@ const Member = require('../models/Member')
 const Role = require('../models/Role')
 const GameClass = require('../models/GameClass')
 const Event = require('../models/Event')
+const Attendance = require('../models/Attendance')
 class memberController {
   async getAllMember(req, res){
     try {
@@ -57,6 +58,14 @@ class memberController {
       const events = await Event.findAll({
         where: {is_active: true},
         order: [['start_date', 'ASC']]
+      })
+
+      const attendances = await Attendance.findAll({
+        where: {
+          member_id: member.id,
+          status: true
+        },
+        
       })
 
         res.status(200).json({

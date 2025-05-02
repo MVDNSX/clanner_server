@@ -1,5 +1,5 @@
 
-const {Member, Role, GameClass, Event, Party} = require('./index')
+const {Member, Role, GameClass, Event, Party, PartyMember, Attendance} = require('./index')
 async function loadSeeds() {
   try {
     await Role.bulkCreate([
@@ -31,7 +31,13 @@ async function loadSeeds() {
     
     await Member.bulkCreate([
       {telegram_id: '5616481223', nickname: 'FTX', pa:199, pz: 87, fs: 6535, class_id: 7, role_id: 2},
-      {telegram_id: '5142957152', nickname: 'NZT', pa:40, pz: 6, fs: 4200, class_id:17, role_id:1}
+      {telegram_id: '5142957152', nickname: 'NZT', pa:40, pz: 6, fs: 4200, class_id:17, role_id:1},
+      {telegram_id: '5142957154', nickname: 'hehe', pa:40, pz: 6, fs: 4200, class_id:17, role_id:1},
+      {telegram_id: '5142957155', nickname: 'meme', pa:40, pz: 6, fs: 4200, class_id:17, role_id:1},
+      {telegram_id: '5142957156', nickname: 'tete', pa:40, pz: 6, fs: 4200, class_id:17, role_id:1},
+      {telegram_id: '5142957157', nickname: 'qeqe', pa:40, pz: 6, fs: 4200, class_id:17, role_id:1},
+      {telegram_id: '5142957158', nickname: 'rere', pa:40, pz: 6, fs: 4200, class_id:17, role_id:1},
+      {telegram_id: '5142957159', nickname: 'wewe', pa:40, pz: 6, fs: 4200, class_id:17, role_id:1},
     ])
 
     
@@ -47,8 +53,52 @@ async function loadSeeds() {
     console.error('***Ошибка загрузки сидов***')
   }
 
+  await Attendance.bulkCreate([
+    {member_id: 1, event_id: 1, status: true},
+    {member_id: 3, event_id: 1, status: true},
+    {member_id: 4, event_id: 1, status: true},
+    {member_id: 5, event_id: 1, status: true},
+    {member_id: 6, event_id: 1, status: true},
+    
+    {member_id: 1, event_id: 5, status: true},
+    {member_id: 3, event_id: 5, status: true},
+    {member_id: 4, event_id: 5, status: true},
+    {member_id: 5, event_id: 5, status: true},
+    {member_id: 6, event_id: 5, status: true},
+    
+    {member_id: 2, event_id: 1, status: true},
+    {member_id: 3, event_id: 1, status: true},
+    {member_id: 4, event_id: 1, status: true},
+    {member_id: 5, event_id: 1, status: true},
+    {member_id: 6, event_id: 1, status: true},
+  ])
+
   await Party.bulkCreate([
-    {event_id: 1, party_name: 'Пачка 1'}
+    {event_id: 1, party_name: 'Пачка атаки 1', leader_id: 1},
+    {event_id: 5, party_name: 'Садик 1', leader_id: 1},
+    {event_id: 1, party_name: 'Пачка атаки 2', leader_id: 2},
+  ])
+
+  await PartyMember.bulkCreate([
+    {party_id: 1, member_id: 1},
+    {party_id: 1, member_id: 3},
+    {party_id: 1, member_id: 4},
+    {party_id: 1, member_id: 5},
+    {party_id: 1, member_id: 6},
+
+    {party_id: 2, member_id: 1},
+    {party_id: 2, member_id: 3},
+    {party_id: 2, member_id: 4},
+    {party_id: 2, member_id: 5},
+    {party_id: 2, member_id: 6},
+    
+    
+    {party_id: 1, member_id: 2},
+    {party_id: 1, member_id: 3},
+    {party_id: 1, member_id: 4},
+    {party_id: 1, member_id: 5},
+
+
   ])
 }
 
