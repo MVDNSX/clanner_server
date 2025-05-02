@@ -56,7 +56,7 @@ class memberController {
         res.status(200).json({status: 'not_found', message: 'Пользователь не найден' })
       }
 
-      const events = await Event.findAll({
+      const activeEvents = await Event.findAll({
         where: {is_active: true},
         order: [['start_date', 'ASC']]
       })
@@ -69,7 +69,15 @@ class memberController {
         include: [
           {
             model: Event,
-            attributes:['id', 'event_name', 'image_url', 'start_date']
+            as: 'events',
+            attributes:['event_name', 'image_url', 'start_date'],
+            include: [
+              {
+                model: Party,
+                as: 'eventParty',
+                attributes: ['party_name', 'leader_id']
+              }
+            ]
           }
         ],
         attributes:['status']
@@ -87,7 +95,7 @@ class memberController {
             pz: member.pz,
             fs: member.fs,
           } ,
-          events,
+          activeEvents,
           attendances
         })
 
