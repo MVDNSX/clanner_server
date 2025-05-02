@@ -85,7 +85,7 @@ class memberController {
                       {
                         model: Member,
                         as: 'member',
-                        attributes: ['id', 'nickname'] // Получаем только никнейм участников
+                        attributes: ['id', 'nickname', 'role_id'] // Получаем только никнейм участников
                       }
                     ]
                   }
@@ -96,22 +96,23 @@ class memberController {
         ]
       })
 
-      const cleanedAttendances = attendances.map(att => {
-        const event = att.attendance_events;
-        return {
-          status: att.status,
-          attendance_events: {
-            event_name: event.event_name,
-            image_url: event.image_url,
-            start_date: event.start_date,
-            event_parties: event.event_parties.map(party => ({
-              party_name: party.party_name,
-              leader_id: party.leader_id,
-              party_members: (party.party_members || []).map(pm => pm.member?.nickname)
+      const cleanedAttendances = attendances.map(attendance => ({
+        status: attendance.status,
+        attendance_events: attendance.attendance_events.map(event => ({
+          event_name: event.event_name,
+          image_url: event.image_url,
+          start_date: event.start_date,
+          event_parties: event.event_parties.map(party => ({
+            party_name: party.party_name,
+            leader_id: party.leader_id,
+            party_members: party.party_members.map(partyMember => ({
+              id: partyMember.member.id,
+              nickname: partyMember.member.nickname,
+              role_id: partyMember.member.role_id,
             }))
-          }
-        };
-      });
+          }))
+        }))
+      }));
 
         res.status(200).json({
           status: 'ok',
@@ -127,7 +128,6 @@ class memberController {
           } ,
           activeEvents,
           cleanedAttendances,
-          attendances
         })
 
     } catch (error) {
