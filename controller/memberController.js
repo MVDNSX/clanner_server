@@ -81,7 +81,7 @@ class memberController {
                   {
                     model: PartyMember,
                     as: 'party_members',
-                    attributes: ['member_id'],
+                    attributes: [],
                     include: [
                       {
                         model: Member,
