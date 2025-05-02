@@ -21,7 +21,7 @@ Attendance.belongsTo(Event, { foreignKey: 'event_id' });
 Event.hasMany(Attendance, { foreignKey: 'event_id' });
 
 Party.belongsTo(Event, {foreignKey: 'event_id'})
-Event.hasMany(Party, {foreignKey: 'event_id'})
+Event.hasMany(Party, {foreignKey: 'event_id', as: 'event_parties'})
 
 Party.belongsTo(Member, {foreignKey: 'leader_id', as: 'leader'})
 Member.hasMany(Party, {foreignKey: 'leader_id', as: 'led_parties'})
