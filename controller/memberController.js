@@ -37,7 +37,7 @@ class memberController {
     }
   }
 
-  async authUser(req, res) {
+  async authMember(req, res) {
     const {telegram_id} = req.body
     try {
       const member = await Member.findOne({
@@ -72,7 +72,7 @@ class memberController {
             fs: member.fs,
           } ,
           events,
-          
+
         })
 
     } catch (error) {
