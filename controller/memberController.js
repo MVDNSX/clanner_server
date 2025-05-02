@@ -3,6 +3,7 @@ const Role = require('../models/Role')
 const GameClass = require('../models/GameClass')
 const Event = require('../models/Event')
 const Attendance = require('../models/Attendance')
+const { Party, PartyMember } = require('../models')
 class memberController {
   async getAllMember(req, res){
     try {
@@ -65,7 +66,24 @@ class memberController {
           member_id: member.id,
           status: true
         },
-        
+        include: [
+          {
+            model: Event,
+            where: {is_active: true},
+          },
+          {
+            model: Party,
+            include:[
+              {
+                model: PartyMember, 
+                include: {
+                  model: Member,
+                  include: GameClass
+                }
+              }
+            ]
+          }
+        ]
       })
 
         res.status(200).json({
@@ -81,7 +99,7 @@ class memberController {
             fs: member.fs,
           } ,
           events,
-
+          attendances
         })
 
     } catch (error) {
