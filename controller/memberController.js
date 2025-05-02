@@ -81,12 +81,11 @@ class memberController {
                   {
                     model: PartyMember,
                     as: 'party_members',
-                    attributes: [],
                     include: [
                       {
                         model: Member,
                         as: 'member',
-                        attributes: ['id', 'nickname', 'role_id'],
+                        attributes: ['nickname'] // Получаем только никнейм участников
                       }
                     ]
                   }
@@ -95,25 +94,24 @@ class memberController {
             ]
           }
         ]
-      });
+      })
 
-      const transformedAttendances = attendances.map(attendance => ({
-        status: attendance.status,
-        attendance_events: attendance.attendance_events.map(event => ({
-          event_name: event.event_name,
-          image_url: event.image_url,
-          start_date: event.start_date,
-          event_parties: event.event_parties.map(party => ({
-            party_name: party.party_name,
-            leader_id: party.leader_id,
-            party_members: party.party_members.map(partyMember => ({
-              id: partyMember.member.id,
-              nickname: partyMember.member.nickname,
-              role_id: partyMember.member.role_id,
+      const cleanedAttendances = attendances.map(att => {
+        const event = att.attendance_events;
+        return {
+          status: att.status,
+          attendance_events: {
+            event_name: event.event_name,
+            image_url: event.image_url,
+            start_date: event.start_date,
+            event_parties: event.event_parties.map(party => ({
+              party_name: party.party_name,
+              leader_id: party.leader_id,
+              party_members: (party.party_members || []).map(pm => pm.member?.nickname)
             }))
-          }))
-        }))
-      }));
+          }
+        };
+      });
 
         res.status(200).json({
           status: 'ok',
@@ -128,7 +126,8 @@ class memberController {
             fs: member.fs,
           } ,
           activeEvents,
-          transformedAttendances,
+          cleanedAttendances,
+          attendances
         })
 
     } catch (error) {
