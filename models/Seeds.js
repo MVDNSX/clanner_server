@@ -57,8 +57,7 @@ async function loadSeeds() {
     {member_id: 1, event_id: 1, status: true},
     {member_id: 3, event_id: 1, status: true},
     {member_id: 4, event_id: 1, status: true},
-    {member_id: 5, event_id: 1, status: true},
-    {member_id: 6, event_id: 1, status: true},
+
     
     {member_id: 1, event_id: 5, status: true},
     {member_id: 3, event_id: 5, status: true},
@@ -67,8 +66,6 @@ async function loadSeeds() {
     {member_id: 6, event_id: 5, status: true},
     
     {member_id: 2, event_id: 1, status: true},
-    {member_id: 3, event_id: 1, status: true},
-    {member_id: 4, event_id: 1, status: true},
     {member_id: 5, event_id: 1, status: true},
     {member_id: 6, event_id: 1, status: true},
   ])
