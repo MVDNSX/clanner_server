@@ -29,6 +29,7 @@ Member.hasMany(Party, {foreignKey: 'leader_id', as: 'led_parties'})
 Member.belongsToMany(Party, {through: PartyMember,  foreignKey: 'member_id', otherKey: 'party_id'})
 Party.belongsToMany(Member, {through: PartyMember, foreignKey: 'party_id', otherKey: 'member_id', as:'party_members'})
 
+Party.hasMany(PartyMember, { foreignKey: 'party_id', as: 'party_members' });
 PartyMember.belongsTo(Party, { foreignKey: 'party_id', as: 'party' });
 PartyMember.belongsTo(Member, { foreignKey: 'member_id', as: 'members' });
 
