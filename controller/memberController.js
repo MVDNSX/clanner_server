@@ -69,7 +69,7 @@ class memberController {
         include: [
           {
             model: Event,
-            as: 'events',
+            as: 'attendance_events',
             attributes:['event_name', 'image_url', 'start_date'],
             include: [
               {
