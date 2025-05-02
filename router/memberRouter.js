@@ -1,12 +1,12 @@
 const Router = require('express')
 const router = new Router()
-const memberControllet = require('../controller/memberController')
+const memberController = require('../controller/memberController')
 
-router.post('/getProfileMember', memberControllet.getProfileMember)
+router.post('/getProfileMember', memberController.authUser)
 
-router.get('/getAllMember', memberControllet.getAllMember)
-router.post('/updateRoleMember', memberControllet.updateRoleMember)
-router.post('/updateProfileMember', memberControllet.updateProfileMember)
+router.get('/getAllMember', memberController.getAllMember)
+router.post('/updateRoleMember', memberController.updateRoleMember)
+router.post('/updateProfileMember', memberController.updateProfileMember)
 
 
 module.exports = router

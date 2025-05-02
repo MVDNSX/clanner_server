@@ -1,6 +1,7 @@
 const Member = require('../models/Member')
 const Role = require('../models/Role')
 const GameClass = require('../models/GameClass')
+const Event = require('../models/Event')
 class memberController {
   async getAllMember(req, res){
     try {
@@ -36,7 +37,7 @@ class memberController {
     }
   }
 
-  async getProfileMember(req, res) {
+  async authUser(req, res) {
     const {telegram_id} = req.body
     try {
       const member = await Member.findOne({
@@ -50,10 +51,30 @@ class memberController {
         ]
       })
       if(!member){
-        res.status(200).json({message: 'Пользователь не найден'})
-      }else{
-        res.status(200).json(member)
+        res.status(200).json({status: 'not_found', message: 'Пользователь не найден' })
       }
+
+      const events = await Event.findAll({
+        where: {is_active: true},
+        order: [['start_date', 'ASC']]
+      })
+
+        res.status(200).json({
+          status: 'ok',
+          profile: {
+            id: member.id,
+            telegram_id: member.telegram_id,
+            name: member.name,
+            role: member.member_role.role_name,
+            class: member.member_class.class_name,
+            pa: member.pa,
+            pz: member.pz,
+            fs: member.fs,
+          } ,
+          events,
+          
+        })
+
     } catch (error) {
       console.error('Ошибка получения пользователя', error)
       res.status(500).json({message: 'Внутренняя ошибка сервера (getProfileMember)'})
