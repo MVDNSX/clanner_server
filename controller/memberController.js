@@ -75,7 +75,18 @@ class memberController {
               {
                 model: Party,
                 as: 'event_parties',
-                attributes: ['party_name', 'leader_id']
+                attributes: ['party_name', 'leader_id'],
+                include: [
+                  {
+                    model: PartyMember,
+                    as:'party_members',
+                    include:[{
+                      model: Member,
+                      as: 'members',
+                      attributes: ['nickname']
+                    }]
+                  }
+                ]
               }
             ]
           }
