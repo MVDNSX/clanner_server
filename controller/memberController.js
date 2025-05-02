@@ -85,7 +85,7 @@ class memberController {
                       {
                         model: Member,
                         as: 'member',
-                        attributes: ['nickname'] // Получаем только никнейм участников
+                        attributes: ['id', 'nickname'] // Получаем только никнейм участников
                       }
                     ]
                   }
