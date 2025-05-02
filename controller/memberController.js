@@ -126,7 +126,8 @@ class memberController {
             fs: member.fs,
           } ,
           activeEvents,
-          cleanedAttendances
+          cleanedAttendances,
+          attendances
         })
 
     } catch (error) {
