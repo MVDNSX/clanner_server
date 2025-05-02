@@ -17,6 +17,9 @@ GameClass.hasMany(Member, {foreignKey: 'class_id'})
 Event.belongsToMany(Member, {through: Attendance, foreignKey: 'event_id', otherKey: 'member_id'})
 Member.belongsToMany(Event, {through: Attendance, foreignKey: 'member_id', otherKey: 'event_id'})
 
+Attendance.belongsTo(Event, { foreignKey: 'event_id' });
+Event.hasMany(Attendance, { foreignKey: 'event_id' });
+
 Party.belongsTo(Event, {foreignKey: 'event_id'})
 Event.hasMany(Party, {foreignKey: 'event_id'})
 

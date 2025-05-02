@@ -65,7 +65,14 @@ class memberController {
         where: {
           member_id: member.id,
           status: true
-        }
+        },
+        include: [
+          {
+            model: Event,
+            attributes:['id', 'event_name', 'image_url', 'start_date']
+          }
+        ],
+        attributes:['status']
       })
 
         res.status(200).json({
