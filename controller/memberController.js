@@ -50,6 +50,9 @@ class memberController {
         res.status(200).json({status: 'not_found', message: 'Пользователь не найден' })
       }
 
+      const clanRoles = await Role.findAll()
+      const gameClasses = await GameClass.findAll()
+
       const activeEvents = await Event.findAll({
         where: {is_active: true},
         order: [['start_date', 'ASC']]
@@ -115,7 +118,9 @@ class memberController {
           status: 'ok',
           member,
           activeEvents,
-          attendances
+          attendances,
+          gameClasses,
+          clanRoles,
         })
 
     } catch (error) {
