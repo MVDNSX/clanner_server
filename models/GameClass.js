@@ -4,6 +4,7 @@ const sequelize = require('../db')
 //Таблица классов персонажей
 const GameClass = sequelize.define('GameClass', {
  class_name: {type: DataTypes.STRING, allowNull:false, unique:true},
+ icon_url: {type: DataTypes.STRING, allowNull:true},
 }, {
   tableName: 'classes',
   timestamps:false,

@@ -13,7 +13,9 @@ const app = express()
 //app.use(corsMiddleware)
 app.use(cors())
 app.use(express.json())
+app.use('/classes', express.static('public/classes'))
 app.use('/api', router)
+
 
 const start = async () => {
   try {
