@@ -43,7 +43,7 @@ async function loadSeeds() {
     
 
     await Event.bulkCreate([
-      {event_name: 'ГвГ: Атака 1', image_url: 'gildwar.jpg', is_active: true, start_date: new Date('2025-05-25T22:01:00+02:00').toISOString(), commentary: 'Сбор в 21:30'}
+      {event_name: 'ГвГ: Атака 1', image_url: 'gildwar.jpg', is_active: true, start_date: new Date('2025-05-25T22:01:00+02:00').toISOString(), commentary: 'Сбор в 21:30'},
       {event_name: 'ГвГ: Защита 1', image_url: 'gildwar.jpg', is_active: false, start_date: new Date('2025-05-25T22:05:00+02:00').toISOString()},
       {event_name: 'ГвГ: Защита 1', image_url: 'gildwar.jpg', is_active: false, start_date: new Date('2025-05-25T22:05:00+02:00').toISOString()},
       {event_name: 'ГвГ: Атака 1', image_url: 'gildwar.jpg', is_active: false, start_date: new Date('2025-05-25T22:05:00+02:00').toISOString()},
