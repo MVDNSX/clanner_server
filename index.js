@@ -14,6 +14,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 app.use('/classes', express.static('public/classes'))
+app.use('/events', express.static('public/events'))
 app.use('/api', router)
 
 

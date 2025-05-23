@@ -140,10 +140,10 @@ class memberController {
         fields: ['nickname', 'pa', 'pz', 'fs', 'class_id']
       })
       
-      const updMember = await Member.findOne({
+      const updatedMember = await Member.findOne({
         where: {telegram_id}
       })
-      res.status(200).json(updMember)
+      res.status(200).json({message: 'ok', updatedMember})
     } catch (error) {
       console.error('Ошибка сохранения данных пользователя', error)
       res.status(500).json({message: 'Внутренняя ошибка сервера (updateProfileMember)'})
