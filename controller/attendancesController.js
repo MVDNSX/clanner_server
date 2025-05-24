@@ -1,6 +1,5 @@
-const Attendance = require('../models/Attendance')
+const { Attendance, Event, Party, PartyMember, Member } = require('../models')
 
-Attendance
 
 class attendanceController {
   async goingEvent(req,res){
@@ -16,7 +15,7 @@ class attendanceController {
 
       const dirtyAttendances = await Attendance.findAll({
         where: {
-          member_id: member.id,
+          member_id,
         },
         attributes: ['status', 'event_id'],
         include: [
@@ -94,7 +93,7 @@ class attendanceController {
 
       const dirtyAttendances = await Attendance.findAll({
         where: {
-          member_id: member.id,
+          member_id,
         },
         attributes: ['status', 'event_id'],
         include: [
