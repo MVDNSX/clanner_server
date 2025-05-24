@@ -13,6 +13,67 @@ class attendanceController {
       if(!created){
         record.status = true
       }
+
+      const dirtyAttendances = await Attendance.findAll({
+        where: {
+          member_id: member.id,
+        },
+        attributes: ['status', 'event_id'],
+        include: [
+          {
+            model: Event,
+            as: 'attendance_events',
+            attributes: ['event_name', 'image_url', 'start_date'],
+            include: [
+              {
+                model: Party,
+                as: 'event_parties',
+                attributes: ['party_name', 'leader_id'],
+                include: [
+                  {
+                    model: PartyMember,
+                    as: 'party_members',
+                    include: [
+                      {
+                        model: Member,
+                        as: 'member',
+                        attributes: ['id', 'nickname', 'class_id'] // Получаем только никнейм участников
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      })
+
+      const attendances = dirtyAttendances.map(att => {
+        const event = att.attendance_events;
+        return {
+          status: att.status,
+          event_id: att.event_id,
+          attendance_events: {
+            event_name: event.event_name,
+            image_url: event.image_url,
+            start_date: event.start_date,
+            event_parties: event.event_parties.map(party => ({
+              party_name: party.party_name,
+              leader_id: party.leader_id,
+              party_members: (party.party_members || []).map(pm => ({
+                id: pm.member?.id,
+                nickname: pm.member?.nickname,
+                class_id: pm.member?.class_id,
+              }))
+            }))
+          }
+        };
+      });
+
+      res.status(200).json({
+          status: 'ok',
+          attendances,
+      })
     } catch (error) {
       console.error('Ошибка обработки запроса (goingEvent)', error)
       res.status(401).json({message: 'Ошибка обработки запроса (goingEvent)'})
