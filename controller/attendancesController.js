@@ -4,11 +4,11 @@ Attendance
 
 class attendanceController {
   async goingEvent(req,res){
-    const {telegram_id, event_id} = req.body
+    const {member_id, event_id} = req.body
     try {
       const [record, created] = await Attendance.findOrCreate({
-        where: {member_id: telegram_id, event_id},
-        defaults:{member_id: telegram_id, event_id, status: true}
+        where: {member_id, event_id},
+        defaults:{member_id, event_id, status: true}
       })
       if(!created){
         record.status = true
