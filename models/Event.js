@@ -8,7 +8,8 @@ const Event = sequelize.define('Event', {
   image_url: {type: DataTypes.STRING, allowNull:true},
   is_active: {type: DataTypes.BOOLEAN, allowNull:false},
   start_date: {type: DataTypes.DATE, allowNull:true},
-  commentary: {type: DataTypes.STRING, allowNull: true}
+  commentary: {type: DataTypes.STRING, allowNull: true},
+  opponent: {type: DataTypes.STRING, allowNull: true}
 }, {
   tableName: 'events',
   timestamps: false,
