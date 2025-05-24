@@ -151,6 +151,7 @@ class memberController {
   }
 
   
+  
 }
 
 module.exports = new memberController
