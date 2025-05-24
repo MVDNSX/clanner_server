@@ -61,7 +61,6 @@ class memberController {
       const dirtyAttendances = await Attendance.findAll({
         where: {
           member_id: member.id,
-          status: true
         },
         attributes: ['status', 'event_id'],
         include: [
