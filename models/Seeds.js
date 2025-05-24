@@ -31,13 +31,15 @@ async function loadSeeds() {
     
     await Member.bulkCreate([
       {telegram_id: '5616481223', nickname: 'FTX', pa:199, pz: 87, fs: 6535, class_id: 7, role_id: 2},
-      {telegram_id: '5142957152', nickname: 'NZT', pa:40, pz: 6, fs: 4200, class_id:17, role_id:1},
-      {telegram_id: '5142957154', nickname: 'hehe', pa:40, pz: 6, fs: 4200, class_id:17, role_id:1},
-      {telegram_id: '5142957155', nickname: 'meme', pa:40, pz: 6, fs: 4200, class_id:17, role_id:1},
-      {telegram_id: '5142957156', nickname: 'tete', pa:40, pz: 6, fs: 4200, class_id:17, role_id:1},
-      {telegram_id: '5142957157', nickname: 'qeqe', pa:40, pz: 6, fs: 4200, class_id:17, role_id:1},
-      {telegram_id: '5142957158', nickname: 'rere', pa:40, pz: 6, fs: 4200, class_id:17, role_id:1},
-      {telegram_id: '5142957159', nickname: 'wewe', pa:40, pz: 6, fs: 4200, class_id:17, role_id:1},
+      {telegram_id: '5142957152', nickname: 'NZT', pa:140, pz: 62, fs: 4200, class_id:17, role_id:1},
+      {telegram_id: '5142957154', nickname: 'hehe', pa:240, pz: 124, fs: 4200, class_id:16, role_id:1},
+      {telegram_id: '5142957155', nickname: 'meme', pa:430, pz: 125, fs: 4200, class_id:11, role_id:1},
+      {telegram_id: '5142957156', nickname: 'tete', pa:440, pz: 12, fs: 4200, class_id:14, role_id:1},
+      {telegram_id: '5142957157', nickname: 'qeqe', pa:402, pz: 69, fs: 4200, class_id:13, role_id:1},
+      {telegram_id: '5142957158', nickname: 'rere', pa:401, pz: 64, fs: 4200, class_id:12, role_id:1},
+      {telegram_id: '5142957159', nickname: 'wewe', pa:402, pz: 64, fs: 4200, class_id:9, role_id:1},
+      {telegram_id: '5142157159', nickname: 'wewe', pa:403, pz: 645, fs: 4200, class_id:9, role_id:1},
+      {telegram_id: '5142257159', nickname: 'wewe', pa:45, pz: 60, fs: 4200, class_id:9, role_id:1},
     ])
 
     
@@ -58,27 +60,30 @@ async function loadSeeds() {
     {member_id: 1, event_id: 1, status: false},
   ])
 
-  //await Party.bulkCreate([
-  //  {event_id: 1, party_name: 'Пачка атаки 1', leader_id: 1},
-  //  {event_id: 1, party_name: 'Пачка атаки 2', leader_id: 2},
-  //  {event_id: 5, party_name: 'Садик 1', leader_id: 1},
-  //])
+  await Party.bulkCreate([
+    {event_id: 1, party_name: 'Атака 1', leader_id: 1},
+    {event_id: 5, party_name: 'Садик 1', leader_id: 2},
+  ])
 
-  //await PartyMember.bulkCreate([
-  //  {party_id: 1, member_id: 1},
-  //  {party_id: 1, member_id: 3},
-  //  {party_id: 1, member_id: 4},
+  await PartyMember.bulkCreate([
+    {party_id: 1, member_id: 1},
+    {party_id: 1, member_id: 2},
+    {party_id: 1, member_id: 3},
+    {party_id: 1, member_id: 4},
+    {party_id: 1, member_id: 5},
+    {party_id: 1, member_id: 6},
+    {party_id: 1, member_id: 7},
+    {party_id: 1, member_id: 8},
+    {party_id: 1, member_id: 9},
+    {party_id: 1, member_id: 10},
 
-  //  {party_id: 2, member_id: 2},
-  //  {party_id: 2, member_id: 5},
-  //  {party_id: 2, member_id: 6},
+    {party_id: 2, member_id: 2},
+    {party_id: 2, member_id: 1},
+    {party_id: 2, member_id: 7},
+    {party_id: 2, member_id: 8},
+    {party_id: 2, member_id: 9},
     
-    
-  //  {party_id: 3, member_id: 2},
-  //  {party_id: 3, member_id: 3},
-  //  {party_id: 3, member_id: 4},
-  //  {party_id: 3, member_id: 5},
-  //])
+  ])
 }
 
 module.exports = {
