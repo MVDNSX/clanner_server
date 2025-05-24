@@ -10,7 +10,8 @@ class attendanceController {
         defaults:{member_id, event_id, status: true}
       })
       if(!created){
-        record.status = true
+        record.status = true;
+        await record.save();
       }
 
       const dirtyAttendances = await Attendance.findAll({
@@ -88,7 +89,8 @@ class attendanceController {
       })
 
       if(!created){
-        record.status = false
+        record.status = false;
+        await record.save();
       }
 
       const dirtyAttendances = await Attendance.findAll({
