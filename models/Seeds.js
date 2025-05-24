@@ -43,54 +43,42 @@ async function loadSeeds() {
     
 
     await Event.bulkCreate([
-      {event_name: 'ГвГ: Атака 1', image_url: 'gildwar.jpg', is_active: true, start_date: new Date('2025-05-25T22:01:00+02:00').toISOString(), commentary: 'Сбор в 21:30'},
-      {event_name: 'ГвГ: Защита 1', image_url: 'gildwar.jpg', is_active: false, start_date: new Date('2025-05-25T22:05:00+02:00').toISOString()},
-      {event_name: 'ГвГ: Защита 1', image_url: 'gildwar.jpg', is_active: false, start_date: new Date('2025-05-25T22:05:00+02:00').toISOString()},
-      {event_name: 'ГвГ: Атака 1', image_url: 'gildwar.jpg', is_active: false, start_date: new Date('2025-05-25T22:05:00+02:00').toISOString()},
-      {event_name: 'Садэман', image_url: 'sademan.jpg', is_active: true, start_date: new Date('2025-05-24T22:00:00+02:00').toISOString(), commentary: 'Сбор в 21:30'},
+      {event_name: 'ГвГ: Атака 1', image_url: '/events/gildwar.jpg', is_active: true, start_date: new Date('2025-05-25T22:01:00+02:00').toISOString(), commentary: 'Сбор в 21:30'},
+      {event_name: 'ГвГ: Защита 1', image_url: '/events/gildwar.jpg', is_active: true, start_date: new Date('2025-05-25T22:05:00+02:00').toISOString()},
+      {event_name: 'ГвГ: Защита 1', image_url: '/events/gildwar.jpg', is_active: false, start_date: new Date('2025-05-25T22:05:00+02:00').toISOString()},
+      {event_name: 'ГвГ: Атака 1', image_url: '/events/gildwar.jpg', is_active: false, start_date: new Date('2025-05-25T22:05:00+02:00').toISOString()},
+      {event_name: 'Садэман', image_url: '/events/sademan.jpg', is_active: true, start_date: new Date('2025-05-24T22:00:00+02:00').toISOString(), commentary: 'Сбор в 21:30'},
     ])
   } catch (error) {
     console.error('***Ошибка загрузки сидов***')
   }
 
   await Attendance.bulkCreate([
-    {member_id: 1, event_id: 1, status: true},
-    {member_id: 3, event_id: 1, status: true},
-    {member_id: 4, event_id: 1, status: true},
-
-    
     {member_id: 1, event_id: 5, status: true},
-    {member_id: 3, event_id: 5, status: true},
-    {member_id: 4, event_id: 5, status: true},
-    {member_id: 5, event_id: 5, status: true},
-    {member_id: 6, event_id: 5, status: true},
-    
-    {member_id: 2, event_id: 1, status: true},
-    {member_id: 5, event_id: 1, status: true},
-    {member_id: 6, event_id: 1, status: true},
+    {member_id: 1, event_id: 1, status: false},
   ])
 
-  await Party.bulkCreate([
-    {event_id: 1, party_name: 'Пачка атаки 1', leader_id: 1},
-    {event_id: 1, party_name: 'Пачка атаки 2', leader_id: 2},
-    {event_id: 5, party_name: 'Садик 1', leader_id: 1},
-  ])
+  //await Party.bulkCreate([
+  //  {event_id: 1, party_name: 'Пачка атаки 1', leader_id: 1},
+  //  {event_id: 1, party_name: 'Пачка атаки 2', leader_id: 2},
+  //  {event_id: 5, party_name: 'Садик 1', leader_id: 1},
+  //])
 
-  await PartyMember.bulkCreate([
-    {party_id: 1, member_id: 1},
-    {party_id: 1, member_id: 3},
-    {party_id: 1, member_id: 4},
+  //await PartyMember.bulkCreate([
+  //  {party_id: 1, member_id: 1},
+  //  {party_id: 1, member_id: 3},
+  //  {party_id: 1, member_id: 4},
 
-    {party_id: 2, member_id: 2},
-    {party_id: 2, member_id: 5},
-    {party_id: 2, member_id: 6},
+  //  {party_id: 2, member_id: 2},
+  //  {party_id: 2, member_id: 5},
+  //  {party_id: 2, member_id: 6},
     
     
-    {party_id: 3, member_id: 2},
-    {party_id: 3, member_id: 3},
-    {party_id: 3, member_id: 4},
-    {party_id: 3, member_id: 5},
-  ])
+  //  {party_id: 3, member_id: 2},
+  //  {party_id: 3, member_id: 3},
+  //  {party_id: 3, member_id: 4},
+  //  {party_id: 3, member_id: 5},
+  //])
 }
 
 module.exports = {
