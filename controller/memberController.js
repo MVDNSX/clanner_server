@@ -97,6 +97,7 @@ class memberController {
         const event = att.attendance_events;
         return {
           status: att.status,
+          event_id: att.event_id,
           attendance_events: {
             event_name: event.event_name,
             image_url: event.image_url,
