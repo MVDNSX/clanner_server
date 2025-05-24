@@ -20,11 +20,11 @@ class attendanceController {
   }
 
   async skipEvent(req,res){
-    const {telegram_id, event_id} = req.body
+    const {member_id, event_id} = req.body
     try {
       const [record, created] = await Attendance.findOrCreate({
-        where: {member_id: telegram_id, event_id},
-        defaults:{member_id: telegram_id, event_id, status: false}
+        where: {member_id, event_id},
+        defaults:{member_id, event_id, status: false}
       })
 
       if(!created){
