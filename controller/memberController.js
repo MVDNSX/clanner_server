@@ -63,7 +63,7 @@ class memberController {
           member_id: member.id,
           status: true
         },
-        attributes: ['status'],
+        attributes: ['status', 'event_id'],
         include: [
           {
             model: Event,
