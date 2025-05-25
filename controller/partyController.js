@@ -1,6 +1,40 @@
 const Party = require('../models/Party')
+const PartyMember = require('../models/PartyMember')
+const Member = require('../models/Member')
 
 class partyController {
+
+  async getMemberParty(req, res){
+    const {event_id, member_id} = req.body
+
+    try {
+      const party = await Party.findOne({
+      where: {
+        event_id
+      },
+      include:[
+        {
+          model: PartyMember,
+          where:{member_id}, 
+          include:[{
+            model: Member
+          }
+        ]}
+      ]
+    })
+
+    if (!party) {
+      return res.status(200).json({message: 'ok', party: null });
+    }
+
+    res.status(200).json({message: 'ok', party})
+    } catch (error) {
+      console.error('Ошибка получения пати', error)
+      res.status(401).json({message: 'Ошибка обработки запроса (getMemberParty)'})
+    }
+  }
+
+
   async getAllParty(req,res){
     try {
       const parties = await Party.findAll()
