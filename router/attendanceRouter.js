@@ -3,7 +3,6 @@ const attendancesController = require('../controller/attendancesController')
 const router = new Router()
 //const declarationController = require('../controller/declarationController');
 
-router.post('/goingEvent', attendancesController.goingEvent)
-router.post('/skipEvent', attendancesController.skipEvent)
+router.post('/update', attendancesController.updateStatus)
 
 module.exports = router

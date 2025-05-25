@@ -45,11 +45,11 @@ async function loadSeeds() {
     
 
     await Event.bulkCreate([
-      {event_name: 'ТВ Атака', image_url: '/events/gildwar.jpg', is_active: true, start_date: new Date('2025-05-25T22:01:00+02:00').toISOString(), commentary: 'Сбор в 21:30', opponent: 'Imbalance'},
-      {event_name: 'ТВ Защита', image_url: '/events/gildwar.jpg', is_active: true, start_date: new Date('2025-05-25T22:05:00+02:00').toISOString(), commentary: 'Сбор в 22:15', opponent: 'Фришка'},
-      {event_name: 'ТВ Защита', image_url: '/events/gildwar.jpg', is_active: false, start_date: new Date('2025-05-25T22:05:00+02:00').toISOString()},
-      {event_name: 'ТВ Атака', image_url: '/events/gildwar.jpg', is_active: false, start_date: new Date('2025-05-25T22:05:00+02:00').toISOString()},
-      {event_name: 'Садэман', image_url: '/events/sademan.jpg', is_active: true, start_date: new Date('2025-05-24T22:00:00+02:00').toISOString(), commentary: 'Сбор в 21:30'},
+      {event_name: 'ТВ Атака', image_url: '/event/gildwar.jpg', is_active: true, start_date: new Date('2025-05-25T22:01:00+02:00').toISOString(), commentary: 'Сбор в 21:30', opponent: 'Imbalance'},
+      {event_name: 'ТВ Защита', image_url: '/event/gildwar.jpg', is_active: true, start_date: new Date('2025-05-25T22:05:00+02:00').toISOString(), commentary: 'Сбор в 22:15', opponent: 'Фришка'},
+      {event_name: 'ТВ Защита', image_url: '/event/gildwar.jpg', is_active: false, start_date: new Date('2025-05-25T22:05:00+02:00').toISOString()},
+      {event_name: 'ТВ Атака', image_url: '/event/gildwar.jpg', is_active: false, start_date: new Date('2025-05-25T22:05:00+02:00').toISOString()},
+      {event_name: 'Садэман', image_url: '/event/sademan.jpg', is_active: true, start_date: new Date('2025-05-24T22:00:00+02:00').toISOString(), commentary: 'Сбор в 21:30'},
     ])
   } catch (error) {
     console.error('***Ошибка загрузки сидов***')
