@@ -15,9 +15,11 @@ class partyController {
       include:[
         {
           model: PartyMember,
+          as:'party_members',
           where:{member_id}, 
           include:[{
-            model: Member
+            model: Member,
+            as: 'member'
           }
         ]}
       ]
