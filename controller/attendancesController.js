@@ -8,11 +8,12 @@ class attendanceController {
     try {
 
       const record = await Attendance.findOne({
-        whete:{
+        where:{
           member_id,
           event_id
         }
       })
+
 
       if(record){
         record.status = status;
@@ -25,12 +26,14 @@ class attendanceController {
         })
       }
 
-      const updatedAttendances = await Attendance.findAll({
+      const updatedAttendances = await Attendance.findOne({
         where:{
           member_id,
           event_id
         }
       })
+
+      console.log(updatedAttendances)
 
       res.status(200).json({message: 'ok', attendances: updatedAttendances})
       
