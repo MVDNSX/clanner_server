@@ -57,8 +57,8 @@ async function loadSeeds() {
     ])
 
     await Attendance.bulkCreate([
-    {member_id: 1, event_id: 5, status:  'GOING', party_id: 1},
-    {member_id: 1, event_id: 1, status: 'NOT_GOING'},
+    {member_id: 1, event_id: 5, status:  true, party_id: 1},
+    {member_id: 1, event_id: 1, status: false},
     ])
 
 
