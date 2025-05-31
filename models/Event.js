@@ -5,7 +5,7 @@ const { types } = require('pg')
 //Таблица-справочник ивентов
 const Event = sequelize.define('Event', {
   event_name: {type: DataTypes.STRING, allowNull:false},
-  image_url: {type: DataTypes.STRING, allowNull:true},
+  banner_url: {type: DataTypes.STRING, allowNull:true},
   is_active: {type: DataTypes.BOOLEAN, allowNull:false},
   start_date: {type: DataTypes.DATE, allowNull:true},
   commentary: {type: DataTypes.STRING, allowNull: true},

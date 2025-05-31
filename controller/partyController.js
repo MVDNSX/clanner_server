@@ -4,35 +4,25 @@ const Member = require('../models/Member')
 
 class partyController {
 
-  async getMemberParty(req, res){
-    const {event_id, member_id} = req.body
+  async getMembers(req, res){
+    const party_id = req.params.party_id
 
     try {
       const party = await Party.findOne({
-      where: {
-        event_id
-      },
-      include:[
-        {
-          model: PartyMember,
-          as:'party_members',
-          where:{member_id}, 
-          include:[{
+        where: {id: party_id},
+        include:[
+          {
             model: Member,
-            as: 'member'
+            through: { attributes: [] },
+            attributes: ['id', 'telegram_id', 'nickname', 'pa', 'pz', 'fs']
           }
-        ]}
-      ]
-    })
+        ]
+      })
 
-    if (!party) {
-      return res.status(200).json({message: 'ok', party: null });
-    }
-
-    res.status(200).json({message: 'ok', party})
+    res.status(200).json({status: 'ok', party})
     } catch (error) {
-      console.error('Ошибка получения пати', error)
-      res.status(401).json({message: 'Ошибка обработки запроса (getMemberParty)'})
+      console.error('Ошибка получения пати (getPartyMembers)', error)
+      res.status(401).json({message: 'Ошибка обработки запроса (getPartyMembers)'})
     }
   }
 

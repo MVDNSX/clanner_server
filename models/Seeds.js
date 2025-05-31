@@ -30,40 +30,37 @@ async function loadSeeds() {
     })
     
     await Member.bulkCreate([
-      {telegram_id: '5616481223', nickname: 'FTX', pa:199, pz: 87, fs: 6535, class_id: 7, role_id: 2},
-      {telegram_id: '5142957152', nickname: 'NZT', pa:140, pz: 62, fs: 4200, class_id:17, role_id:1},
-      {telegram_id: '5142957154', nickname: 'hehe', pa:240, pz: 124, fs: 4200, class_id:16, role_id:1},
-      {telegram_id: '5142957155', nickname: 'meme', pa:430, pz: 125, fs: 4200, class_id:11, role_id:1},
-      {telegram_id: '5142957156', nickname: 'tete', pa:440, pz: 12, fs: 4200, class_id:14, role_id:1},
-      {telegram_id: '5142957157', nickname: 'qeqe', pa:402, pz: 69, fs: 4200, class_id:13, role_id:1},
-      {telegram_id: '5142957158', nickname: 'rere', pa:401, pz: 64, fs: 4200, class_id:12, role_id:1},
-      {telegram_id: '5142957159', nickname: 'wewe', pa:402, pz: 64, fs: 4200, class_id:9, role_id:1},
-      {telegram_id: '5142157159', nickname: 'wewe', pa:403, pz: 645, fs: 4200, class_id:9, role_id:1},
-      {telegram_id: '5142257159', nickname: 'wewe', pa:45, pz: 60, fs: 4200, class_id:9, role_id:1},
+      { telegram_id: '5616481223', nickname: 'FTX', pa: 199, pz: 87, fs: 6535, class_id: 7, role_id: 1 },
+    { telegram_id: '5616481224', nickname: 'Alpha', pa: 150, pz: 90, fs: 4500, class_id: 3, role_id: 1 },
+    { telegram_id: '5616481225', nickname: 'Bravo', pa: 180, pz: 75, fs: 5000, class_id: 5, role_id: 1 },
+    { telegram_id: '5616481226', nickname: 'Charlie', pa: 210, pz: 80, fs: 6000, class_id: 2, role_id:1 },
+    { telegram_id: '5616481227', nickname: 'Delta', pa: 170, pz: 85, fs: 4700, class_id: 4, role_id: 1 },
+    { telegram_id: '5616481228', nickname: 'Echo', pa: 190, pz: 88, fs: 5200, class_id: 6, role_id: 1 },
+    { telegram_id: '5616481229', nickname: 'Foxtrot', pa: 160, pz: 83, fs: 4900, class_id: 1, role_id: 1 },
+    { telegram_id: '5616481230', nickname: 'Golf', pa: 175, pz: 79, fs: 4800, class_id: 8, role_id: 1 },
+    { telegram_id: '5616481231', nickname: 'Hotel', pa: 200, pz: 92, fs: 6100, class_id: 9, role_id: 1 },
+    { telegram_id: '5616481232', nickname: 'India', pa: 185, pz: 77, fs: 5300, class_id: 7, role_id: 1 },
     ])
 
     
 
     await Event.bulkCreate([
-      {event_name: 'ТВ Атака', image_url: '/events/gildwar.jpg', is_active: true, start_date: new Date('2025-05-25T22:01:00+02:00').toISOString(), commentary: 'Сбор в 21:30', opponent: 'Imbalance'},
-      {event_name: 'ТВ Защита', image_url: '/events/gildwar.jpg', is_active: true, start_date: new Date('2025-05-25T22:05:00+02:00').toISOString(), commentary: 'Сбор в 22:15', opponent: 'Фришка'},
-      {event_name: 'ТВ Защита', image_url: '/events/gildwar.jpg', is_active: false, start_date: new Date('2025-05-25T22:05:00+02:00').toISOString()},
-      {event_name: 'ТВ Атака', image_url: '/events/gildwar.jpg', is_active: false, start_date: new Date('2025-05-25T22:05:00+02:00').toISOString()},
-      {event_name: 'Садэман', image_url: '/events/sademan.jpg', is_active: true, start_date: new Date('2025-05-24T22:00:00+02:00').toISOString(), commentary: 'Сбор в 21:30'},
+      {event_name: 'ТВ Атака', banner_url: '/events/gildwar.jpg', is_active: true, start_date: new Date('2025-05-25T22:01:00+02:00').toISOString(), commentary: 'Сбор в 21:30', opponent: 'Imbalance'},
+      {event_name: 'ТВ Защита', banner_url: '/events/gildwar.jpg', is_active: true, start_date: new Date('2025-05-25T22:05:00+02:00').toISOString(), commentary: 'Сбор в 22:15', opponent: 'Фришка'},
+      {event_name: 'ТВ Защита', banner_url: '/events/gildwar.jpg', is_active: false, start_date: new Date('2025-05-25T22:05:00+02:00').toISOString()},
+      {event_name: 'ТВ Атака', banner_url: '/events/gildwar.jpg', is_active: false, start_date: new Date('2025-05-25T22:05:00+02:00').toISOString()},
+      {event_name: 'Садэман', banner_url: '/events/sademan.jpg', is_active: true, start_date: new Date('2025-05-24T22:00:00+02:00').toISOString(), commentary: 'Сбор в 21:30'},
     ])
-  } catch (error) {
-    console.error('***Ошибка загрузки сидов***')
-  }
 
-  await Attendance.bulkCreate([
-    {member_id: 1, event_id: 5, status: true},
-    {member_id: 1, event_id: 1, status: false},
-  ])
+    await Party.bulkCreate([
+      {event_id: 1, party_name: 'Атака 1', leader_id: 1},
+    ])
 
-  await Party.bulkCreate([
-    {event_id: 1, party_name: 'Атака 1', leader_id: 1},
-    {event_id: 5, party_name: 'Садик 1', leader_id: 2},
-  ])
+    await Attendance.bulkCreate([
+    {member_id: 1, event_id: 5, status:  'GOING', party_id: 1},
+    {member_id: 1, event_id: 1, status: 'NOT_GOING'},
+    ])
+
 
   await PartyMember.bulkCreate([
     {party_id: 1, member_id: 1},
@@ -74,16 +71,12 @@ async function loadSeeds() {
     {party_id: 1, member_id: 6},
     {party_id: 1, member_id: 7},
     {party_id: 1, member_id: 8},
-    {party_id: 1, member_id: 9},
-    {party_id: 1, member_id: 10},
-
-    {party_id: 2, member_id: 2},
-    {party_id: 2, member_id: 1},
-    {party_id: 2, member_id: 7},
-    {party_id: 2, member_id: 8},
-    {party_id: 2, member_id: 9},
     
   ])
+  } catch (error) {
+    console.error('***Ошибка загрузки сидов***')
+    console.error(error)
+  }
 }
 
 module.exports = {
