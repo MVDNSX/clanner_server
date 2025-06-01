@@ -14,7 +14,7 @@ class partyController {
           {
             model: Member,
             through: { attributes: [] },
-            attributes: ['id', 'telegram_id', 'nickname', 'pa', 'pz', 'fs']
+            attributes: ['id', 'telegram_id', 'nickname', 'pa', 'pz', 'fs', 'class_id']
           }
         ]
       })
