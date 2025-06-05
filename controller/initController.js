@@ -3,11 +3,14 @@ const Role = require('../models/Role')
 const GameClass = require('../models/GameClass')
 const Event = require('../models/Event')
 const Attendance = require('../models/Attendance')
+const jwt = require('jsonwebtoken')
 
 class initController {
 
-  async init(req, res) {
+  async auth(req, res) {
+    //const {telegram_id} = req.telegram_id // для прода
     const telegram_id = '5616481223'
+    
  
     try {
       const member = await Member.findOne({
@@ -16,7 +19,8 @@ class initController {
       })
 
       if(!member){
-        throw new Error('Пользователь не найден');
+        console.log('Пользователь не найден')
+        return res.status(200).json({ status: 'not_found' });
       }
 
       const [roles, classes, events, attendances] = await Promise.all([
@@ -41,7 +45,18 @@ class initController {
       })
     ])
 
-    res.status(200).json({status:'ok', member, roles, classes, events, attendances })
+    const token = jwt.sign(
+      {
+        telegram_id,
+        member_id: member.id
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: '30m'
+      }
+    )
+
+    res.status(200).json({status:'ok', token, member, roles, classes, events, attendances })
 
     } catch (error) {
       console.log('+++ Ошибка инициации (init) +++')

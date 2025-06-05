@@ -1,6 +1,6 @@
 const crypto = require('crypto')
-const {Member} = require('../models')
-const tokenBot = process.env.TOKEN_BOT
+
+const MAX_INITDATA_SECOND = 300
 
 function verifyInitData(initData){
 
@@ -13,7 +13,7 @@ function verifyInitData(initData){
                           .sort()
                           .join("\n");
 
-  const secretKey = crypto.createHmac('sha256', 'WebAppData').update(tokenBot).digest();
+  const secretKey = crypto.createHmac('sha256', 'WebAppData').update(process.env.TOKEN_BOT).digest();
   const computedHash = crypto.createHmac('sha256', secretKey).update(dataCheckString).digest('hex');
   if (computedHash !== hash) {
     return null; // Подпись не совпала, данные не от Telegram
@@ -35,37 +35,28 @@ async function validateInitData(req, res, next){
 
   const {initData} = req.body
   if(!initData){
-    return res.status(400).json({message: '*** initData не найдена ***'})
+    return res.status(400).json({error: '*** initData не найдена ***'})
   }
 
   const verifiedData = verifyInitData(initData)
-  if(!verifiedParams){
-    return res.status(401).json({message: '*** Невалидный initData ***'})
+  if(!verifiedData){
+    return res.status(401).json({error: '*** Невалидный initData ***'})
   }
+
+   const now = Math.floor(Date.now() / 1000)
+   const authDate = Number(verifiedData.auth_date)
+   if(now - authDate > MAX_INITDATA_SECOND){ //проверка что initData создан не более чем MAX_INITDATA_AGE секунд назад
+    return res.status(403).json({ error: '*** initData просрочена ***' });
+   }
+
 
   const user = verifiedData.user
-  if(!user){
-    return res.status(400).json({message: '*** Данные пользователя в initData не найдены ***'})
+  if(!user || !user.id){
+    return res.status(400).json({ error: '*** Данные пользователя в initData не найдены ***'})
   }
-  const telegramId = user.id
 
-  try {
-    const member = await Member.findOne({
-      where:{
-        telegram_id: telegramId
-      }
-    })
-
-    if(!member){
-      res.status(403).json({message: '*** User not found ***'})
-    }
-
-    req.user = member
-    next()
-  } catch (error) {
-    console.error('*** Server error (validateInitData) ***', error)
-    res.status(500).json({message: 'Server error'})
-  }
+  req.telegram_id = user.id
+  next()
 }
 
 module.exports = validateInitData;
