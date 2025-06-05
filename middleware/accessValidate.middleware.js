@@ -11,9 +11,11 @@ function accessValidate(req, res, next){
   
   jwt.verify(token, process.env.JWT_SECRET,(err, decoded) => {
     if(err) {
-      return res.status(403).json({ error: 'Недействительный или просроченный токен' })
+      if (err.name === 'TokenExpiredError') {
+        return res.status(401).json({ error: 'Токен просрочен', code: 'token_expired' })
+      }
+      return res.status(403).json({ error: 'Недействительный токен', code: 'invalid_token' })
     }
-
     req.telegram_id = decoded.telegram_id
     req.member_id = decoded.member_id
 
