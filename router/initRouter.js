@@ -3,6 +3,6 @@ const router = new Router()
 const initController = require('../controller/initController');
 const accessValidate = require('../middleware/accessValidate.middleware')
 
-router.post('/auth', accessValidate, initController.auth)
+router.post('/auth', initController.auth)
 
 module.exports = router
