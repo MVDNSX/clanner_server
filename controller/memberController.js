@@ -10,12 +10,12 @@ class memberController {
       await Member.update({
         ...fields
       }, {
-        where: {member_id},
+        where: {id:member_id},
         fields: ['nickname', 'pa', 'pz', 'fs', 'class_id']
       })
       
       const updatedMember = await Member.findOne({
-        where: {member_id}
+        where: {id:member_id}
       })
       res.status(200).json({message: 'ok', updatedMember})
     } catch (error) {
