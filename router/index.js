@@ -7,13 +7,12 @@ const memberRouter = require('./memberRouter')
 const eventRouter = require('./eventRouter')
 const partyRouter = require('./partyRouter')
 const attendanceRouter = require('./attendanceRouter')
-const validateInitData = require('../middleware/validateInitData.middleware')
 
 
 router.use('/init', initRouter)
-router.use('/declaration', declarationRouter)
 router.use('/member', memberRouter)
 router.use('/event', eventRouter)
 router.use('/party', partyRouter)
 router.use('/attendance', attendanceRouter)
+router.use('/declaration', declarationRouter)
 module.exports = router

@@ -4,7 +4,8 @@ const { Attendance, Event, Party, PartyMember, Member } = require('../models')
 class attendanceController {
 
   async updateStatus(req,res){
-    const {member_id, event_id, status} = req.body
+    const member_id = req.member_id
+    const {event_id, status} = req.body
     try {
 
       const record = await Attendance.findOne({
