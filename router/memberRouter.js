@@ -1,12 +1,9 @@
 const Router = require('express')
 const router = new Router()
 const memberController = require('../controller/memberController')
+const accessValidate = require('../middleware/accessValidate.middleware')
 
-router.post('/auth', memberController.authMember)
-
-router.get('/getAllMember', memberController.getAllMember)
-router.post('/updateRoleMember', memberController.updateRoleMember)
-router.post('/updateProfileMember', memberController.updateProfileMember)
+router.post('/updateProfile', accessValidate, memberController.updateProfile)
 
 
 module.exports = router
