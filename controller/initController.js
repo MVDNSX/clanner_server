@@ -9,7 +9,7 @@ class initController {
 
   async auth(req, res) {
     //const {telegram_id} = req.telegram_id // для прода
-    const telegram_id = '5616481223'
+    const telegram_id = '561648'
     
  
     try {
