@@ -7,14 +7,12 @@ class attendanceController {
     const member_id = req.member_id
     const {event_id, status} = req.body
     try {
-
-      const record = await Attendance.findOne({
+      let record = await Attendance.findOne({
         where:{
           member_id,
           event_id
         }
       })
-
 
       if(record){
         record.status = status;
@@ -27,16 +25,7 @@ class attendanceController {
         })
       }
 
-      const updatedAttendances = await Attendance.findOne({
-        where:{
-          member_id,
-          event_id
-        }
-      })
-
-      console.log(updatedAttendances)
-
-      res.status(200).json({message: 'ok', attendances: updatedAttendances})
+      res.status(200).json({message: 'ok', attendances: record})
       
     } catch (error) {
       console.error('Ошибка обработки запроса (updateStatus)', error)
