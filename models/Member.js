@@ -25,7 +25,10 @@ const Member = sequelize.define('Member', {
     allowNull: false,
   },
   role_id: {
-    type:DataTypes.INTEGER, allowNull:false, defaultValue: 1
+    type:DataTypes.INTEGER, allowNull:false, references:{model: 'roles', key: 'id'}, defaultValue: 1
+  },
+  class_id: {
+    type:DataTypes.INTEGER, allowNull:false, references:{model: 'classes', key: 'id'}
   },
   joined_at: {
     type: DataTypes.DATE,

@@ -1,18 +1,23 @@
 const Router = require('express')
 const router = new Router()
 
-const initRouter = require('./initRouter')
+const sessionRouter = require('./sessionRouter')
+const partyRouter = require('./partyRouter')
+const profileRouter = require('./profileRouter')
+
 const declarationRouter = require('./declarationRouter')
 const memberRouter = require('./memberRouter')
 const eventRouter = require('./eventRouter')
-const partyRouter = require('./partyRouter')
 const attendanceRouter = require('./attendanceRouter')
 
 
-router.use('/init', initRouter)
-router.use('/member', memberRouter)
-router.use('/event', eventRouter)
-router.use('/party', partyRouter)
+router.use('/session', sessionRouter)
+router.use('/parties', partyRouter)
+router.use('/profile', profileRouter)
+
 router.use('/attendance', attendanceRouter)
+
+router.use('/member', memberRouter)
+router.use('/events', eventRouter)
 router.use('/declaration', declarationRouter)
 module.exports = router

@@ -1,28 +1,42 @@
-const Party = require('../models/Party')
-const PartyMember = require('../models/PartyMember')
-const Member = require('../models/Member')
+const {Member, Party } = require('../models')
 
 class partyController {
 
-  async getMembers(req, res){
-    const party_id = req.params.party_id
-
+  async getPartyMembers(req, res){
     try {
-      const party = await Party.findOne({
-        where: {id: party_id},
+      const party_id = req.params.partyId
+      const party = await Party.findByPk(party_id, {
         include:[
           {
             model: Member,
+            as: 'members',
             through: { attributes: [] },
-            attributes: ['id', 'telegram_id', 'nickname', 'pa', 'pz', 'fs', 'class_id']
+            attributes: ['id', 'nickname', 'pa', 'pz', 'fs', 'class_id'],
           }
         ]
       })
 
-    res.status(200).json({status: 'ok', party})
+    if(!party){
+      res.status(404).json({
+        success: false,
+        error:{
+          code:'PARTY_NOT_FOUND',
+          message: `Пати с Id:${party_id} не найдена`
+        }
+      })
+    }
+
+    res.status(200).json({success: true, data:{party}})
     } catch (error) {
-      console.error('Ошибка получения пати (getPartyMembers)', error)
-      res.status(401).json({message: 'Ошибка обработки запроса (getPartyMembers)'})
+      console.log('+++ Ошибка (getPartyMembers) +++')
+      console.log(error)
+      res.status(500).json({
+        success:false,  
+        error:{ 
+          code: 'INTERNAL_SERVER_ERROR', 
+          message: 'Internal server error'
+        } 
+      })
     }
   }
 

@@ -46,7 +46,7 @@ async function validateInitData(req, res, next){
    const now = Math.floor(Date.now() / 1000)
    const authDate = Number(verifiedData.auth_date)
    if(now - authDate > MAX_INITDATA_SECOND){ //проверка что initData создан не более чем MAX_INITDATA_AGE секунд назад
-    return res.status(403).json({ error: '*** initData просрочена ***' });
+    return res.status(401).json({ error: '*** initData просрочена ***' });
    }
 
 
@@ -55,7 +55,9 @@ async function validateInitData(req, res, next){
     return res.status(400).json({ error: '*** Данные пользователя в initData не найдены ***'})
   }
 
-  req.telegram_id = user.id
+  req.userData = {
+    telegramId: user.id
+  }
   next()
 }
 

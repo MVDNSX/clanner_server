@@ -3,46 +3,35 @@ const Member = require('./Member')
 const Role = require('./Role')
 const GameClass = require('./GameClass')
 const Event = require('./Event')
-const Attendance = require('./Attendance')
-const Party = require('./Party')
-const PartyMember = require ('./PartyMember')
+const EventSignup = require ('./EventSignup')
+const Group = require('./Group')
+const GroupMember = require('./GroupMember')
 
 
 
-// Member → Role
-Member.belongsTo(Role, { foreignKey: 'role_id' });
-Role.hasMany(Member, { foreignKey: 'role_id' });
+Member.belongsTo(Role, {foreignKey: 'role_id', as: 'role'})
+Role.hasMany(Member, {foreignKey: 'role_id', as:'members'})
 
-// Member → GameClass
-Member.belongsTo(GameClass, { foreignKey: 'class_id' });
-GameClass.hasMany(Member, { foreignKey: 'class_id' });
+Member.belongsTo(GameClass, {foreignKey: 'class_id', as:'class'})
+GameClass.hasMany(Member, {foreignKey: 'class_id', as:'members'})
 
-// Event ↔ Member через Attendance (многие-ко-многим)
-Event.belongsToMany(Member, { through: Attendance, foreignKey: 'event_id', otherKey: 'member_id' });
-Member.belongsToMany(Event, { through: Attendance, foreignKey: 'member_id', otherKey: 'event_id' });
+Event.hasMany(Group, {foreignKey: 'event_id'})
+Group.belongsTo(Event, {foreignKey: 'event_id'})
 
-// Attendance → Party
-Attendance.belongsTo(Party, { foreignKey: 'party_id' });
-Party.hasMany(Attendance, { foreignKey: 'party_id' });
+Member.hasMany(EventSignup, {foreignKey: 'member_id'})
+EventSignup.belongsTo(Member, {foreignKey: 'member_id'})
 
-// Party → Event
-Party.belongsTo(Event, { foreignKey: 'event_id' });
-Event.hasMany(Party, { foreignKey: 'event_id' });
+Event.hasMany(EventSignup, { foreignKey: 'event_id', as: 'signups' });
+EventSignup.belongsTo(Event, { foreignKey: 'event_id' });
 
-// Party → Member (лидер)
-Party.belongsTo(Member, { foreignKey: 'leader_id', as: 'leader' });
-Member.hasMany(Party, { foreignKey: 'leader_id', as: 'led_parties' });
+Member.hasMany(GroupMember, {foreignKey: 'member_id'})
+GroupMember.belongsTo(Member, {foreignKey: 'member_id'})
 
-// Party ↔ Member через PartyMember (многие-ко-многим)
-Member.belongsToMany(Party, { through: PartyMember, foreignKey: 'member_id', otherKey: 'party_id' });
-Party.belongsToMany(Member, { through: PartyMember, foreignKey: 'party_id', otherKey: 'member_id' });
+Group.hasMany(GroupMember, {foreignKey: 'group_id'})
+GroupMember.belongsTo(Group, {foreignKey: 'group_id'})
 
-// PartyMember → Member и Party
-PartyMember.belongsTo(Member, { foreignKey: 'member_id' });
-Member.hasMany(PartyMember, { foreignKey: 'member_id' });
-
-PartyMember.belongsTo(Party, { foreignKey: 'party_id' });
-Party.hasMany(PartyMember, { foreignKey: 'party_id' });
+Event.hasMany(GroupMember, {foreignKey: 'event_id'})
+GroupMember.belongsTo(Event, {foreignKey: 'event_id'})
 
 module.exports = {
   sequelize,
@@ -50,7 +39,7 @@ module.exports = {
   Role,
   GameClass,
   Event,
-  Attendance,
-  Party,
-  PartyMember,
+  EventSignup,
+  Group,
+  GroupMember,
 }
